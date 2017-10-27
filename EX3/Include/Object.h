@@ -6,12 +6,21 @@ class Object
 public:
 	Object();
 
-private:
+	void setPos(int x, int y);
+
+protected:
 	int		posX, posY;
+
 };
 
 Object::Object()
 {
+	posX = 0, posY = 0;
+}
+
+void Object::setPos(int x, int y) {
+	posX = x;
+	posY = y;
 }
 
 

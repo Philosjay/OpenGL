@@ -6,6 +6,9 @@
 #include "World.h"
 #include "Window.h"
 
+Window* window;
+World*	world;
+
 class Application
 {
 public:
@@ -16,14 +19,19 @@ public:
 	void	update(); 
 
 private:
+	void	render();
+
 	World*	mWorld;
 	Window*	mWindow;
 };
 
 
 Application::Application() {
-	mWorld = new World;
-	mWindow = new Window(600, 600, "test");
+	world = new World;
+	window = new Window(1280, 720, "test");
+
+//	mWorld = world;
+//	mWindow = window;
 }
 void Application::init() {
 
@@ -31,12 +39,23 @@ void Application::init() {
 
 void Application::run() {
 	mWindow->update();
-	mWindow->render();
+	
+	this->render();
 	glutMainLoop();
 }
 void Application::update() {
 
 }
+void display() {
+	window->draw();
+}
+void Application::render()
+{
+	glutDisplayFunc(display);
+}
+
+
+
 
 #endif // !APPLICATION_H_
 #pragma once

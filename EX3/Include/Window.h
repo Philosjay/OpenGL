@@ -3,8 +3,10 @@
 
 #include <GL/glut.h>
 
+#include "SceneNode.h"
+
 //透视参数
-GLfloat xwMin = -40, ywMin = -60, xwMax = 40, ywMax = 60;
+GLfloat xwMin = 0, ywMin = 0, xwMax = 1280, ywMax = 720;
 GLfloat dnear = 25, dfar = 125;
 
 class Window
@@ -12,68 +14,90 @@ class Window
 public:
 	Window(int width, int height, char* title);
 	void	update();
-	void	render();
+	void	draw();
 private:
-	friend void displayFunc();
-	friend void  reshape(int w, int h);
+
+	static void  reshape(int w, int h);
+	void		init();
+	void		addWidget(SceneNode* widet);
+
+	SceneNode*	mWidgets[100];
+	int			widgetCount;
 
 };
+void drawSceneNode(SceneNode* );
 
-
-Window::Window(int width, int height, char* title) {
+Window::Window(int width, int height, char* title):
+	widgetCount(0)
+{
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 	glutInitWindowSize(width, height);
 	glutCreateWindow("test");
 
-	gluLookAt(100, 50, 50, 50, 50, 0, 0, 1, 0);
+	xwMax = width;
+	ywMax = height;
+	gluLookAt(50, 50, 50, 50, 50, 0, 0, 1, 0);
 	glClearColor(1, 1, 1, 0);
 	glMatrixMode(GL_MODELVIEW);
 	glMatrixMode(GL_PROJECTION);
+
+	init();
+
 }
 
 void Window::update() {
 	glutReshapeFunc(reshape);
 }
 
-void Window::render() {
-	glutDisplayFunc(displayFunc);
-}
-
-void displayFunc()
+void Window::draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	glPushMatrix();
-
-	glColor3f(0, 0, 1);
-	glPolygonMode(GL_FRONT, GL_FILL);
-	glPolygonMode(GL_BACK, GL_LINE);
-
-	glBegin(GL_QUADS);
-	glVertex3f(0, 0, 0);
-	glVertex3f(100, 0, 0);
-	glVertex3f(100, 100, 0);
-	glVertex3f(0, 100, 0);
-	glEnd();
-
-	glPopMatrix();
+	for (int i = 0; i < widgetCount; i++) {
+		mWidgets[i]->draw();
+	}
 
 	glFlush();
-
 }
 
-void reshape(int w, int h)
+
+
+inline void Window::reshape(int w, int h)
 {
 	glViewport(0, 0, w, h);			//重置画面中心，和一下两个 glMatrixMode()照应使用
 
 	glLoadIdentity();
 
-	if (w <= h)
-		glFrustum(xwMin, xwMax, ywMin*(GLfloat)h / (GLfloat)w, ywMax*(GLfloat)h / (GLfloat)w, dnear, dfar);
+	if (w <= (h + xwMax - ywMax))
+		glOrtho(xwMin, xwMax, ywMin*(GLfloat)(h + xwMax - ywMax) / (GLfloat)w, ywMax*(GLfloat)(h + xwMax - ywMax) / (GLfloat)w, dnear, dfar);
 	else
-		glFrustum(xwMin*(GLfloat)w / (GLfloat)h, xwMax*(GLfloat)w / (GLfloat)h, ywMin, ywMax, dnear, dfar);
+		glOrtho(xwMin*(GLfloat)w / (GLfloat)(h + xwMax - ywMax), xwMax*(GLfloat)w / (GLfloat)(h + xwMax - ywMax), ywMin, ywMax, dnear, dfar);
+}
+
+void Window::init()
+{
+	SceneNode* tmp = new SceneNode;
+	tmp->setColor(SceneNode::Color::Black);
+	tmp->setType(SceneNode::Type::Rect);
+	tmp->setPos(100, 100);
+	tmp->setSize(300, 500);
+	addWidget(tmp);
+
+	tmp = new SceneNode;
+	tmp->setColor(SceneNode::Color::Black);
+	tmp->setType(SceneNode::Type::Rect);
+	tmp->setPos(500, 100);
+	tmp->setSize(300, 500);
+	addWidget(tmp);
 
 }
+
+inline void Window::addWidget(SceneNode * widet)
+{
+	mWidgets[widgetCount++]=widet;
+}
+
+
 
 #endif // !WINDOW_H_
 
