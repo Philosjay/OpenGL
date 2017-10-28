@@ -23,6 +23,7 @@ public:
 		Black,
 		White,
 		Grey,
+		Grey2,
 	};
 	SceneNode();
 
@@ -30,14 +31,18 @@ public:
 	void				setColor(Color color);
 	virtual		void	setSize(int x, int y);
 	virtual		void	draw();
+	virtual		void	setActive(bool);
+	virtual		bool	isWidgetActive(int x,int y) { return 0; }
 private:
 	int		mType;
 	int		mColor;
-	int		sizeX;
-	int		sizeY;
 	bool	isLineVisible;
 
 	SceneNode*	next;
+
+protected:
+	int		sizeX;
+	int		sizeY;
 };
 
 SceneNode::SceneNode() :
@@ -84,6 +89,9 @@ void SceneNode::draw()
 	case Color::Grey:
 		glColor3f(0.8, 0.8, 0.8);
 		break;
+	case Color::Grey2:
+		glColor3f(0.5, 0.5, 0.5);
+		break;
 	default:
 		break;
 	}
@@ -100,8 +108,6 @@ void SceneNode::draw()
 		glEnd();
 		break;
 	case Type::Rect:
-
-		glColor3f(0.8, 0.8, 0.8);
 		glBegin(GL_QUADS);
 		glVertex3f(posX, posY,0);
 		glVertex3f(posX+sizeX, posY, 0);
@@ -129,6 +135,11 @@ void SceneNode::draw()
 	glPopMatrix();
 
 	glFlush();
+}
+
+inline void SceneNode::setActive(bool)
+{
+	//do nothing by default
 }
 
 #endif // !SCENENODE_H_
