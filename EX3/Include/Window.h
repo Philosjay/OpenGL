@@ -3,6 +3,7 @@
 
 #include <GL/glut.h>
 
+#include "Widget.h"
 #include "SceneNode.h"
 
 //透视参数
@@ -20,6 +21,9 @@ private:
 	static void  reshape(int w, int h);
 	void		init();
 	void		addWidget(SceneNode* widet);
+	void		background();
+	void		widgets();
+
 
 	SceneNode*	mWidgets[100];
 	int			widgetCount;
@@ -76,19 +80,11 @@ inline void Window::reshape(int w, int h)
 
 void Window::init()
 {
-	SceneNode* tmp = new SceneNode;
-	tmp->setColor(SceneNode::Color::Black);
-	tmp->setType(SceneNode::Type::Rect);
-	tmp->setPos(100, 100);
-	tmp->setSize(300, 500);
-	addWidget(tmp);
+	background();
+	widgets();
 
-	tmp = new SceneNode;
-	tmp->setColor(SceneNode::Color::Black);
-	tmp->setType(SceneNode::Type::Rect);
-	tmp->setPos(500, 100);
-	tmp->setSize(300, 500);
-	addWidget(tmp);
+
+
 
 }
 
@@ -96,6 +92,159 @@ inline void Window::addWidget(SceneNode * widet)
 {
 	mWidgets[widgetCount++]=widet;
 }
+
+inline void Window::background()
+{
+	SceneNode* tmp = new SceneNode;
+	tmp->setColor(SceneNode::Color::Grey);
+	tmp->setType(SceneNode::Type::Rect);
+	tmp->setSize(1330, 110);
+	tmp->setPos(0, 650);
+	addWidget(tmp);
+
+	tmp = new SceneNode;
+	tmp->setColor(SceneNode::Color::Grey);
+	tmp->setType(SceneNode::Type::Rect);
+	tmp->setSize(200, 650);
+	tmp->setPos(1130, 0);
+	addWidget(tmp);
+}
+
+inline void Window::widgets()
+{
+	Widget* widet = new Widget;
+	widet->setSize(150, 100);
+	widet->setPos(60, 655);
+	addWidget(widet);
+
+	widet = new Widget;
+	widet->setSize(150, 100);
+	widet->setPos(210, 655);
+	addWidget(widet);
+
+	widet = new Widget;
+	widet->setSize(150, 100);
+	widet->setPos(360, 655);
+	addWidget(widet);
+
+	//填充
+	widet = new Widget;
+	widet->setSize(100, 80);
+	widet->setPos(1130, 650);
+	addWidget(widet);
+	//橡皮
+	widet = new Widget;
+	widet->setSize(100, 80);
+	widet->setPos(1230, 650);
+	addWidget(widet);
+	//放大镜
+	widet = new Widget;
+	widet->setSize(100, 80);
+	widet->setPos(1030, 650);
+	addWidget(widet);
+	//画笔
+	widet = new Widget;
+	widet->setSize(100, 80);
+	widet->setPos(930, 650);
+	addWidget(widet);
+	//工具栏
+	widet = new Widget;
+	widet->setSize(400, 30);
+	widet->setPos(930, 730);
+	addWidget(widet);
+
+	//形状栏
+	widet = new Widget;
+	widet->setSize(120, 30);
+	widet->setPos(1170, 600);
+	addWidget(widet);
+	//直线
+	widet = new Widget;
+	widet->setSize(60, 30);
+	widet->setPos(1170, 570);
+	addWidget(widet);
+	//曲线
+	widet = new Widget;
+	widet->setSize(60, 30);
+	widet->setPos(1230, 570);
+	addWidget(widet);
+	//三角形
+	widet = new Widget;
+	widet->setSize(60, 30);
+	widet->setPos(1170, 540);
+	addWidget(widet);
+	//三角形实
+	widet = new Widget;
+	widet->setSize(60, 30);
+	widet->setPos(1230, 540);
+	addWidget(widet);
+	//圆形
+	widet = new Widget;
+	widet->setSize(60, 30);
+	widet->setPos(1170, 510);
+	addWidget(widet);
+	//圆形实
+	widet = new Widget;
+	widet->setSize(60, 30);
+	widet->setPos(1230, 510);
+	addWidget(widet);
+	//椭圆形
+	widet = new Widget;
+	widet->setSize(60, 30);
+	widet->setPos(1170, 480);
+	addWidget(widet);
+	//椭圆形实
+	widet = new Widget;
+	widet->setSize(60, 30);
+	widet->setPos(1230, 480);
+	addWidget(widet);
+	//矩形
+	widet = new Widget;
+	widet->setSize(60, 30);
+	widet->setPos(1170, 450);
+	addWidget(widet);
+	//矩形实
+	widet = new Widget;
+	widet->setSize(60, 30);
+	widet->setPos(1230, 450);
+	addWidget(widet);
+
+	//线宽栏
+	widet = new Widget;
+	widet->setSize(120, 30);
+	widet->setPos(1170, 400);
+	addWidget(widet);
+	widet = new Widget;
+	widet->setSize(120, 30);
+	widet->setPos(1170, 370);
+	addWidget(widet);
+	widet = new Widget;
+	widet->setSize(120, 30);
+	widet->setPos(1170, 340);
+	addWidget(widet);
+	widet = new Widget;
+	widet->setSize(120, 30);
+	widet->setPos(1170, 310);
+	addWidget(widet);
+	widet = new Widget;
+	widet->setSize(120, 30);
+	widet->setPos(1170, 280);
+	addWidget(widet);
+
+	//颜色栏
+	widet = new Widget;
+	widet->setSize(120, 30);
+	widet->setPos(1170, 220);
+	addWidget(widet);
+	//
+	widet = new Widget;
+	widet->setSize(120, 30);
+	widet->setPos(1170, 220);
+	addWidget(widet);
+
+
+}
+
 
 
 

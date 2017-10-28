@@ -22,27 +22,28 @@ public:
 		Blue,
 		Black,
 		White,
+		Grey,
 	};
 	SceneNode();
 
-	void	setType(Type type);
-	void	setColor(Color color);
-	void	setSize(int x, int y);
-	void	setSize(int r);
-	void	draw();
+	void				setType(Type type);
+	void				setColor(Color color);
+	virtual		void	setSize(int x, int y);
+	virtual		void	draw();
 private:
 	int		mType;
 	int		mColor;
 	int		sizeX;
 	int		sizeY;
-	int		radius;
+	bool	isLineVisible;
 
 	SceneNode*	next;
 };
 
 SceneNode::SceneNode() :
 	Object(),
-	next(NULL)
+	next(NULL),
+	isLineVisible(true)
 {
 }
 void SceneNode::setType(Type type)
@@ -57,10 +58,6 @@ void SceneNode::setSize(int x, int y)
 {
 	sizeX = x;
 	sizeY = y;
-}
-void SceneNode::setSize(int r)
-{
-	radius = r;
 }
 void SceneNode::draw() 
 {
@@ -84,6 +81,9 @@ void SceneNode::draw()
 	case Color::White:
 		glColor3f(1, 1, 1);
 		break;
+	case Color::Grey:
+		glColor3f(0.8, 0.8, 0.8);
+		break;
 	default:
 		break;
 	}
@@ -100,12 +100,27 @@ void SceneNode::draw()
 		glEnd();
 		break;
 	case Type::Rect:
+
+		glColor3f(0.8, 0.8, 0.8);
 		glBegin(GL_QUADS);
 		glVertex3f(posX, posY,0);
 		glVertex3f(posX+sizeX, posY, 0);
 		glVertex3f(posX + sizeX, posY+sizeY, 0);
 		glVertex3f(posX , posY+sizeY, 0);
 		glEnd();
+		if (isLineVisible) {
+			glColor3f(0.0, 0.0, 0.0);
+			glBegin(GL_LINES);
+			glVertex3f(posX, posY, 0);
+			glVertex3f(posX + sizeX, posY, 0);
+			glVertex3f(posX + sizeX, posY, 0);
+			glVertex3f(posX + sizeX, posY + sizeY, 0);
+			glVertex3f(posX + sizeX, posY + sizeY, 0);
+			glVertex3f(posX, posY + sizeY, 0);
+			glVertex3f(posX, posY + sizeY, 0);
+			glVertex3f(posX, posY, 0);
+			glEnd();
+		}
 		break;
 	default:
 		break;
