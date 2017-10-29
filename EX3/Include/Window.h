@@ -116,7 +116,6 @@ void Window::draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 
-
 	for (int i = 0; i <backgroundCount; i++) {
 		mBackground[i]->draw();
 	}
@@ -135,7 +134,7 @@ void Window::draw()
 	for (int i = 0; i < Botton::ColorCount; i++) {
 		mColorBottons[i]->draw();
 	}
-
+	
 	glFlush();
 }
 
@@ -194,28 +193,33 @@ inline void Window::background()
 	Widget* widget = new Botton;
 	widget->setSize(400, 30);
 	widget->setPos(930, 730);
+	widget->loadTexture("Textures/Title_Tools.bmp");
 	addBackground(widget);
 
 	//形状栏
 	widget = new Botton;
 	widget->setSize(120, 30);
 	widget->setPos(1170, 600);
+	widget->loadTexture("Textures/Title_Shape.bmp");
 	addBackground(widget);
 
 	//LineWidth
 	widget = new Botton;
 	widget->setSize(120, 30);
 	widget->setPos(1170, 400);
+	widget->loadTexture("Textures/Title_Width.bmp");
 	addBackground(widget);
 
 	widget = new Botton;
 	widget->setSize(120, 30);
 	widget->setPos(1170, 220);
+	widget->loadTexture("Textures/Title_Color.bmp");
 	addBackground(widget);
 
 	widget = new Botton;
 	widget->setSize(150, 100);
 	widget->setPos(60, 655);
+	widget->loadTexture("Textures/Title_Gallery.bmp");
 	addBackground(widget);
 
 }
@@ -225,32 +229,38 @@ inline void Window::widgets()
 	Widget* widet = new Botton;
 	widet->setSize(150, 100);
 	widet->setPos(210, 655);
+	widet->loadTexture("Textures/save.bmp");
 	mMenuBottons[Botton::Save] = widet;
 
 	widet = new Botton;
 	widet->setSize(150, 100);
 	widet->setPos(360, 655);
+	widet->loadTexture("Textures/help.bmp");
 	mMenuBottons[Botton::Help] = widet;
 
 	//填充
 	widet = new Botton;
 	widet->setSize(100, 80);
 	widet->setPos(1130, 650);
+	widet->loadTexture("Textures/PaintBucket.bmp");
 	mToolBottons[Botton::Brush] = widet;
 	//橡皮
 	widet = new Botton;
 	widet->setSize(100, 80);
 	widet->setPos(1230, 650);
+	widet->loadTexture("Textures/Eraser.bmp");
 	mToolBottons[Botton::Eraser] = widet;
 	//放大镜
 	widet = new Botton;
 	widet->setSize(100, 80);
 	widet->setPos(1030, 650);
+	widet->loadTexture("Textures/Zoom.bmp");
 	mToolBottons[Botton::Zoom] = widet;
 	//画笔
 	widet = new Botton;
 	widet->setSize(100, 80);
 	widet->setPos(930, 650);
+	widet->loadTexture("Textures/Pencil.bmp");
 	mToolBottons[Botton::Pen] = widet;
 
 
@@ -259,51 +269,61 @@ inline void Window::widgets()
 	widet = new Botton;
 	widet->setSize(60, 30);
 	widet->setPos(1170, 570);
+	widet->loadTexture("Textures/Line.bmp");
 	mToolBottons[Botton::Line] = widet;
 	//曲线
 	widet = new Botton;
 	widet->setSize(60, 30);
 	widet->setPos(1230, 570);
+	widet->loadTexture("Textures/Curve.bmp");
 	mToolBottons[Botton::Curve] = widet;
 	//三角形
 	widet = new Botton;
 	widet->setSize(60, 30);
 	widet->setPos(1170, 540);
+	widet->loadTexture("Textures/triangle.bmp");
 	mToolBottons[Botton::Triangle] = widet;
 	//三角形实
 	widet = new Botton;
 	widet->setSize(60, 30);
 	widet->setPos(1230, 540);
+	widet->loadTexture("Textures/triangle2.bmp");
 	mToolBottons[Botton::Trianglef] = widet;
 	//圆形
 	widet = new Botton;
 	widet->setSize(60, 30);
 	widet->setPos(1170, 510);
+	widet->loadTexture("Textures/circle.bmp");
 	mToolBottons[Botton::CirCle] = widet;
 	//圆形实
 	widet = new Botton;
 	widet->setSize(60, 30);
 	widet->setPos(1230, 510);
+	widet->loadTexture("Textures/circle2.bmp");
 	mToolBottons[Botton::CirClef] = widet;
 	//椭圆形
 	widet = new Botton;
 	widet->setSize(60, 30);
 	widet->setPos(1170, 480);
+	widet->loadTexture("Textures/Ellipse.bmp");
 	mToolBottons[Botton::Ellipse] = widet;
 	//椭圆形实
 	widet = new Botton;
 	widet->setSize(60, 30);
 	widet->setPos(1230, 480);
+	widet->loadTexture("Textures/Ellipse2.bmp");
 	mToolBottons[Botton::Ellipsef] = widet;
 	//矩形
 	widet = new Botton;
 	widet->setSize(60, 30);
 	widet->setPos(1170, 450);
+	widet->loadTexture("Textures/rectangle.bmp");
 	mToolBottons[Botton::Rect] = widet;
 	//矩形实
 	widet = new Botton;
 	widet->setSize(60, 30);
 	widet->setPos(1230, 450);
+	widet->loadTexture("Textures/rectangle2.bmp");
 	mToolBottons[Botton::Rectf] = widet;
 
 	//线宽栏
@@ -311,59 +331,71 @@ inline void Window::widgets()
 	widet = new Botton;
 	widet->setSize(120, 30);
 	widet->setPos(1170, 370);
+	widet->loadTexture("Textures/line1.bmp");
 	mLineWidthBottons[Botton::Width1] = widet;
 	widet = new Botton;
 	widet->setSize(120, 30);
 	widet->setPos(1170, 340);
+	widet->loadTexture("Textures/line2.bmp");
 	mLineWidthBottons[Botton::Width2] = widet;
 	widet = new Botton;
 	widet->setSize(120, 30);
 	widet->setPos(1170, 310);
+	widet->loadTexture("Textures/line3.bmp");
 	mLineWidthBottons[Botton::Width3] = widet;
 	widet = new Botton;
 	widet->setSize(120, 30);
 	widet->setPos(1170, 280);
+	widet->loadTexture("Textures/line4.bmp");
 	mLineWidthBottons[Botton::Width4] = widet;
 
 	//颜色栏
 	widet = new Botton;
 	widet->setSize(60, 30);
 	widet->setPos(1170, 190);
+	widet->loadTexture("Textures/Red.bmp");
 	mColorBottons[Botton::Red] = widet;
 	//
 	widet = new Botton;
 	widet->setSize(60, 30);
 	widet->setPos(1230, 190);
+	widet->loadTexture("Textures/Green.bmp");
 	mColorBottons[Botton::Green] = widet;
 
 	widet = new Botton;
 	widet->setSize(60, 30);
 	widet->setPos(1170,160);
+	widet->loadTexture("Textures/Blue.bmp");
 	mColorBottons[Botton::Blue] = widet;
 	/////////////////////
 	widet = new Botton;
 	widet->setSize(60, 30);
 	widet->setPos(1230, 160);
+	widet->loadTexture("Textures/Yellow.bmp");
 	mColorBottons[Botton::Yellow] = widet;
 
 	widet = new Botton;
 	widet->setSize(60, 30);
 	widet->setPos(1170, 130);
+	widet->loadTexture("Textures/Orange.bmp");
 	mColorBottons[Botton::Orange] = widet;
 
 	widet = new Botton;
 	widet->setSize(60, 30);
 	widet->setPos(1230, 130);
+	widet->loadTexture("Textures/Black.bmp");
 	mColorBottons[Botton::Black] = widet;
 
 	widet = new Botton;
 	widet->setSize(60, 30);
 	widet->setPos(1170, 100);
+	widet->loadTexture("Textures/White.bmp");
 	mColorBottons[Botton::White] = widet;
 
 	widet = new Botton;
 	widet->setSize(60, 30);
 	widet->setPos(1230, 100);
+	widet->loadTexture("Textures/Purple.bmp");
 	mColorBottons[Botton::Grey] = widet;
 
 
