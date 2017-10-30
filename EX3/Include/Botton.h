@@ -46,7 +46,7 @@ public:
 		Orange,
 		White,
 		Black,
-		Grey,
+		Purple ,
 
 		ColorCount,
 	};
@@ -60,8 +60,13 @@ public:
 
 	virtual void	setActive(bool isActive);
 	virtual	bool	isWidgetActive(int x, int y);
+	void			setType(Menu i);
+	void			setType(ToolSet i);
+	void			setType(LineWidthSet i);
+	void			setType(Color i);
 private:
 	bool	isActive;
+	int		bottonType;
 };
 Botton::Botton():
 	Widget(),
@@ -90,5 +95,22 @@ inline bool Botton::isWidgetActive(int x, int y)
 	}
 	return isActive;
 }
+inline void Botton::setType(Menu i)
+{
+	bottonType = i;
+}
+inline void Botton::setType(ToolSet i)
+{
+	bottonType = i;
+}
+inline void Botton::setType(LineWidthSet i)
+{
+	bottonType = i;
+}
+inline void Botton::setType(Color i)
+{
+	bottonType = i;
+}
+
 #endif // !BOTTON_H_
 #pragma once

@@ -12,6 +12,14 @@ Window* window;
 World*	world;
 
 int curPosX, curPosY;
+int motionPosX, motionPosY;
+
+int mShapeStatus;
+int mLineWidthStatus;
+int mColorStatus;
+
+void display();
+
 
 class Application
 {
@@ -66,8 +74,10 @@ private:
 	};
 
 	void	render();
+	void	processUserInput();
+	void	getFeedback();
 
-	int		mToolStatus, mShapeStatus, mLineWidthStatus, mColorStatus;
+	
 	World*	mWorld;
 	Window*	mWindow;
 };
@@ -81,35 +91,44 @@ Application::Application() {
 	mWindow = window;
 }
 void Application::init() {
-
+	glClearColor(1, 1, 1, 0);
 }
 
 void mouseButton(int button, int state, int x, int y)
 {
-	curPosX = x + 50;
-	curPosY = 770-y;
-	printf("X %d Y %d\n", curPosX, curPosY);
 
-
-	window->update(curPosX, curPosY);
-/*
 	switch (button) {
 	case GLUT_LEFT_BUTTON:
-		trackballXform = (GLfloat*)objectXform;
+		switch (state) {
+		case GLUT_DOWN:
+			curPosX = x + 50;
+			curPosY = 770 - y;
+			motionPosX = curPosX;
+			motionPosY = curPosY;
+			world->previewGraph(window->getActiveTool(), window->getActiveColor(), curPosX, curPosY, motionPosX, motionPosY);
+			break;
+		case GLUT_UP:
+			world->saveGraph();
+			break;
+		}
 		break;
 	case GLUT_MIDDLE_BUTTON:
-		trackballXform = (GLfloat*)lightXform;
+		
 		break;
 	}
-	switch (state) {
-	case GLUT_DOWN:
-		startMotion(0, 1, x, y);
-		break;
-	case GLUT_UP:
-		stopMotion(0, 1, x, y);
-		break;
-	}
-*/
+	window->update(curPosX, curPosY);
+
+	printf("Curpos X %d Y %d\n", curPosX, curPosY);
+
+}
+void mouseMotion(int x, int y)
+{
+	motionPosX= x + 50;
+	motionPosY= 770 - y;
+	world->previewGraph(window->getActiveTool(), window->getActiveColor(), curPosX, curPosY, motionPosX, motionPosY);
+	printf("motion X %d Y %d\n", motionPosX, motionPosY);
+
+	display();
 }
 
 void Application::run() {
@@ -118,28 +137,11 @@ void Application::run() {
 	float	deltaTime = 0.0;
 //	while (true)
 	{
-		glutMouseFunc(mouseButton);
+		processUserInput();
 		mWindow->update(curPosX,curPosY);
+		getFeedback();
 		this->render();
 		glutMainLoop();
-
-/*
-		//帧数控制，但没有实际作用
-		start = clock();
-
-		while (deltaTime>=1.0/60.0)
-		{
-			deltaTime -= 1.0/60.0 ;
-
-			mWindow->update();
-			this->render();
-			glutMainLoop();
-	
-		}
-
-		finish = clock();
-		deltaTime += (((float)finish - (float)start)/1000);
-*/
 
 	}
 
@@ -150,12 +152,50 @@ void Application::run() {
 void Application::update() {
 
 }
-void display() {
+void displayMenu() {
 	window->draw();
+
+}
+void display() {
+	//清空画布
+
+	glColor3f(1, 1, 1);
+
+	glBegin(GL_QUADS);
+	glVertex3f(0, 0, -10);
+	glVertex3f(1129, 0, -10);
+	glVertex3f(1129, 650, -10);
+	glVertex3f(0, 650, -10);
+	glEnd();
+
+	world->show();
+	window->draw();
+
+	glFlush();
 }
 void Application::render()
 {
+
+
+
+	mLineWidthStatus = mWindow->getActiveLineWidth();
 	glutDisplayFunc(display);
+
+	
+	
+}
+
+inline void Application::processUserInput()
+{
+	glutMouseFunc(mouseButton);
+	glutMotionFunc(mouseMotion);
+}
+
+inline void Application::getFeedback()
+{
+	mShapeStatus = mWindow->getActiveTool();
+
+	mColorStatus = mWindow->getActiveColor();
 }
 
 

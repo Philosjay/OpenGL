@@ -19,11 +19,16 @@ public:
 	Window(int width, int height, char* title);
 	void	update(int x,int y);
 	void	draw();
+	int		getActiveTool() { return lastActiveTool; }
+	int		getActiveLineWidth() { return lastActiveLineWidth; }
+	int		getActiveColor() { return lastActiveColor; }
 
+
+
+private:
 	int lastActiveTool = 0;
 	int lastActiveLineWidth = 0;
 	int lastActiveColor = 0;
-private:
 
 	static void  reshape(int w, int h);
 	void		init();
@@ -114,7 +119,7 @@ void Window::update(int x,int y) {
 
 void Window::draw()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+//	glClear(GL_COLOR_BUFFER_BIT);
 
 	for (int i = 0; i <backgroundCount; i++) {
 		mBackground[i]->draw();
@@ -134,7 +139,7 @@ void Window::draw()
 	for (int i = 0; i < Botton::ColorCount; i++) {
 		mColorBottons[i]->draw();
 	}
-	
+
 	glFlush();
 }
 
@@ -226,10 +231,11 @@ inline void Window::background()
 
 inline void Window::widgets()
 {
-	Widget* widet = new Botton;
+	Botton* widet = new Botton;
 	widet->setSize(150, 100);
 	widet->setPos(210, 655);
 	widet->loadTexture("Textures/save.bmp");
+	widet->setType(Botton::Menu::Save);
 	mMenuBottons[Botton::Save] = widet;
 
 	widet = new Botton;
@@ -396,7 +402,7 @@ inline void Window::widgets()
 	widet->setSize(60, 30);
 	widet->setPos(1230, 100);
 	widet->loadTexture("Textures/Purple.bmp");
-	mColorBottons[Botton::Grey] = widet;
+	mColorBottons[Botton::Purple] = widet;
 
 
 

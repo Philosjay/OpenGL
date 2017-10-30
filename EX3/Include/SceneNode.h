@@ -12,9 +12,20 @@ class SceneNode: public Object
 public:
 	enum Type
 	{
-		Rect,
-		Circle,
+		Pen,
+		Zoom,
+		Brush,
+		Eraser,
+		Line,
+		Curve,
 		Triangle,
+		CirCle,
+		Ellipse,
+		Rect,
+		Trianglef,
+		CirClef,
+		Ellipsef,
+		Rectf,
 	};
 
 	enum Color
@@ -22,15 +33,27 @@ public:
 		Red,
 		Green,
 		Blue,
-		Black,
+		Yellow,
+		Orange,
 		White,
+		Black,
+		Purple,
 		Grey,
 		Grey2,
+	};
+	enum LineWidth
+	{
+		Width1,
+		Width2,
+		Width3,
+		Width4,
 	};
 	SceneNode();
 
 	void				setType(Type type);
 	void				setColor(Color color);
+	void				setType(int type) { mType = type; }
+	void				setColor(int color) { mColor = color; }
 	virtual		void	setSize(int x, int y);
 	virtual		void	draw();
 	virtual		void	setActive(bool);
@@ -39,7 +62,7 @@ public:
 	void	setTexture(GLuint texture) { this->texture = texture; }
 	void	setTextureEnable(bool isAble) { isTextureEnable = isAble; }
 private:
-	int		mType;
+	
 	int		mColor;
 	bool	isLineVisible;
 	GLuint  texture;
@@ -47,9 +70,13 @@ private:
 	SceneNode*	next;
 
 protected:
+	int		mType;
 	int		sizeX;
 	int		sizeY;
 
+	//用于绘制图形
+	int curPosX, curPosY;
+	int motionPosX, motionPosY;
 
 };
 
@@ -75,7 +102,7 @@ void SceneNode::setSize(int x, int y)
 }
 void SceneNode::draw() 
 {
-	glEnable(GL_TEXTURE_2D);
+	
 	glPushMatrix();
 
 	//设置颜色
@@ -90,8 +117,17 @@ void SceneNode::draw()
 	case Color::Blue:
 		glColor3f(0, 0, 1);
 		break;
+	case Color::Yellow:
+		glColor3f(1, 1, 0);
+		break;
 	case Color::Black:
 		glColor3f(0, 0, 0);
+		break;
+	case Color::Purple:
+		glColor3f(1, 0, 1);
+		break;
+	case Color::Orange:
+		glColor3f(1, 0.5, 0);
 		break;
 	case Color::White:
 		glColor3f(1, 1, 1);
@@ -117,8 +153,9 @@ void SceneNode::draw()
 		glEnd();
 		break;
 	case Type::Rect:
+		glEnable(GL_TEXTURE_2D);
 		 glBindTexture(GL_TEXTURE_2D, texture);
-
+		 
 		glBegin(GL_QUADS);
 		glTexCoord2f(0.0f, 0.0f);
 		glVertex3f(posX, posY,0);
@@ -129,6 +166,7 @@ void SceneNode::draw()
 		glTexCoord2f(0.0f, 1.0f);
 		glVertex3f(posX , posY+sizeY, 0);
 		glEnd();
+		glDisable(GL_TEXTURE_2D);
 		if (isLineVisible) {
 			glColor3f(0.0, 0.0, 0.0);
 			glBegin(GL_LINES);
@@ -143,13 +181,18 @@ void SceneNode::draw()
 			glEnd();
 		}
 		break;
+	case Type::Line:
+		glBegin(GL_LINES);
+		glVertex3f(curPosX, curPosY, 0);
+		glVertex3f(motionPosX, motionPosY, 0);
+		glEnd();
+		break;
 	default:
 		break;
 	}
 	
 	glPopMatrix();
-	glDisable(GL_TEXTURE_2D);
-	glFlush();
+//	glFlush();
 }
 
 inline void SceneNode::setActive(bool)
