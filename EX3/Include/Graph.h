@@ -13,11 +13,19 @@ public:
 
 	void setCurPos(int x, int y);
 	void setMotionPos(int x, int y);
+	void setLineWidth(int width);
 private:
 
+protected:
+	int	mLineWidth;
+	//用于动态绘制图形
+	int curPosX, curPosY;
+	int motionPosX, motionPosY;
 
 };
-Graph::Graph() {
+Graph::Graph()
+	:mLineWidth(1)
+{
 }
 
 
@@ -31,6 +39,11 @@ inline void Graph::setMotionPos(int x, int y)
 {
 	motionPosX = x;
 	motionPosY = y;
+}
+
+inline void Graph::setLineWidth(int width)
+{
+	mLineWidth = width;
 }
 
 #endif // !GRAPH_H_

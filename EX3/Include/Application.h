@@ -105,10 +105,14 @@ void mouseButton(int button, int state, int x, int y)
 			curPosY = 770 - y;
 			motionPosX = curPosX;
 			motionPosY = curPosY;
-			world->previewGraph(window->getActiveTool(), window->getActiveColor(), curPosX, curPosY, motionPosX, motionPosY);
+			world->previewGraph(window->getActiveTool(), window->getActiveColor(),window->getActiveLineWidth(),
+								curPosX, curPosY, motionPosX, motionPosY);
 			break;
 		case GLUT_UP:
-			world->saveGraph();
+			if (window->isInPaper()) {
+				world->saveGraph();
+			}
+	
 			break;
 		}
 		break;
@@ -125,7 +129,8 @@ void mouseMotion(int x, int y)
 {
 	motionPosX= x + 50;
 	motionPosY= 770 - y;
-	world->previewGraph(window->getActiveTool(), window->getActiveColor(), curPosX, curPosY, motionPosX, motionPosY);
+	world->previewGraph(window->getActiveTool(), window->getActiveColor(), window->getActiveLineWidth(),
+						curPosX, curPosY, motionPosX, motionPosY);
 	printf("motion X %d Y %d\n", motionPosX, motionPosY);
 
 	display();

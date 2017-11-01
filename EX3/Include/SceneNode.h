@@ -55,6 +55,7 @@ public:
 	void				setType(int type) { mType = type; }
 	void				setColor(int color) { mColor = color; }
 	virtual		void	setSize(int x, int y);
+	virtual		void	setLineWidth(int width);
 	virtual		void	draw();
 	virtual		void	setActive(bool);
 	virtual		bool	isWidgetActive(int x,int y) { return 0; }
@@ -63,20 +64,19 @@ public:
 	void	setTextureEnable(bool isAble) { isTextureEnable = isAble; }
 private:
 	
-	int		mColor;
+	
 	bool	isLineVisible;
 	GLuint  texture;
 	bool	isTextureEnable;
 	SceneNode*	next;
 
 protected:
+	int		mColor;
 	int		mType;
 	int		sizeX;
 	int		sizeY;
 
-	//用于绘制图形
-	int curPosX, curPosY;
-	int motionPosX, motionPosY;
+
 
 };
 
@@ -99,6 +99,10 @@ void SceneNode::setSize(int x, int y)
 {
 	sizeX = x;
 	sizeY = y;
+}
+inline void SceneNode::setLineWidth(int width)
+{
+	//Do nothing by default
 }
 void SceneNode::draw() 
 {
@@ -153,8 +157,10 @@ void SceneNode::draw()
 		glEnd();
 		break;
 	case Type::Rect:
-		glEnable(GL_TEXTURE_2D);
-		 glBindTexture(GL_TEXTURE_2D, texture);
+		if (isTextureEnable) {
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, texture);
+		}
 		 
 		glBegin(GL_QUADS);
 		glTexCoord2f(0.0f, 0.0f);
@@ -169,6 +175,7 @@ void SceneNode::draw()
 		glDisable(GL_TEXTURE_2D);
 		if (isLineVisible) {
 			glColor3f(0.0, 0.0, 0.0);
+			glLineWidth(1);
 			glBegin(GL_LINES);
 			glVertex3f(posX, posY, 0);
 			glVertex3f(posX + sizeX, posY, 0);
@@ -181,12 +188,13 @@ void SceneNode::draw()
 			glEnd();
 		}
 		break;
-	case Type::Line:
+/*	case Type::Line:
 		glBegin(GL_LINES);
 		glVertex3f(curPosX, curPosY, 0);
 		glVertex3f(motionPosX, motionPosY, 0);
 		glEnd();
 		break;
+*/
 	default:
 		break;
 	}
