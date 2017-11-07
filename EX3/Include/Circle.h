@@ -12,21 +12,14 @@ class Circle :public Graph
 public:
 	Circle();
 
-	void	setLineWidth(int width);
 	void	draw();
 private:
-	int		mLineWidth;
 };
 
 Circle::Circle()
-	:mLineWidth(1)
 {
 }
 
-inline void Circle::setLineWidth(int width)
-{
-	mLineWidth = width;
-}
 
 inline void Circle::draw()
 {

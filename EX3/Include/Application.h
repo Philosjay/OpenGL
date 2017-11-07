@@ -77,13 +77,15 @@ private:
 	void	processUserInput();
 	void	getFeedback();
 
-	
+	bool	isPreviewing;
 	World*	mWorld;
 	Window*	mWindow;
 };
 
 
-Application::Application() {
+Application::Application() 
+	: isPreviewing(false)
+{
 	world = new World;
 	window = new Window(1280, 720, "test");
 
@@ -103,10 +105,15 @@ void mouseButton(int button, int state, int x, int y)
 		case GLUT_DOWN:
 			curPosX = x + 50;
 			curPosY = 770 - y;
+			window->update(curPosX, curPosY);
 			motionPosX = curPosX;
 			motionPosY = curPosY;
-			world->previewGraph(window->getActiveTool(), window->getActiveColor(),window->getActiveLineWidth(),
-								curPosX, curPosY, motionPosX, motionPosY);
+			printf("is in paper %d \n", window->isInPaper());
+			if (window->isInPaper()) {
+ 				world->previewGraph(window->getActiveTool(), window->getActiveColor(), window->getActiveLineWidth(),
+					curPosX, curPosY, motionPosX, motionPosY);
+			}
+
 			break;
 		case GLUT_UP:
 			if (window->isInPaper()) {
@@ -120,15 +127,17 @@ void mouseButton(int button, int state, int x, int y)
 		
 		break;
 	}
-	window->update(curPosX, curPosY);
 
 	printf("Curpos X %d Y %d\n", curPosX, curPosY);
 
 }
 void mouseMotion(int x, int y)
 {
+	
 	motionPosX= x + 50;
 	motionPosY= 770 - y;
+//	window->update(curPosX, curPosY);
+	if(window->isInPaper())
 	world->previewGraph(window->getActiveTool(), window->getActiveColor(), window->getActiveLineWidth(),
 						curPosX, curPosY, motionPosX, motionPosY);
 	printf("motion X %d Y %d\n", motionPosX, motionPosY);

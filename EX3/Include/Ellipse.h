@@ -10,21 +10,14 @@ class Ellipse_ :public Graph
 public:
 	Ellipse_();
 
-	void	setLineWidth(int width);
 	void	draw();
 private:
-	int		mLineWidth;
 };
 
 Ellipse_::Ellipse_()
-	:mLineWidth(1)
 {
 }
 
-inline void Ellipse_::setLineWidth(int width)
-{
-	mLineWidth = width;
-}
 
 inline void Ellipse_::draw()
 {

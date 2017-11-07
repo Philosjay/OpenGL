@@ -1,22 +1,22 @@
-#ifndef LINE_H_
-#define LINE_H_
+#ifndef PEN_H_
+#define PEN_H_
 
 #include "Graph.h"
 
-class Line:public Graph
+class Pen : public Graph
 {
 public:
-	Line();
+	Pen();
 
 	void	draw();
 private:
-};
 
-Line::Line()
+};
+Pen::Pen()
 {
 }
 
-inline void Line::draw()
+inline void Pen::draw()
 {
 	glPushMatrix();
 
@@ -56,15 +56,19 @@ inline void Line::draw()
 	default:
 		break;
 	}
-	glLineWidth(mLineWidth*2);
-	glBegin(GL_LINES);
-	glVertex3f(curPosX, curPosY, 0);
+
+	glBegin(GL_QUADS);
 	glVertex3f(motionPosX, motionPosY, 0);
+	glVertex3f(motionPosX + mLineWidth , motionPosY, 0);
+	glVertex3f(motionPosX + mLineWidth , motionPosY + mLineWidth , 0);
+	glVertex3f(motionPosX, motionPosY + mLineWidth , 0);
 	glEnd();
 
 	glPopMatrix();
+
 }
 
 
-#endif // !LINE_H_
+
+#endif // !PEN_H_
 #pragma once

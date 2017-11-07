@@ -8,21 +8,14 @@ class Circlef :public Graph
 public:
 	Circlef();
 
-	void	setLineWidth(int width);
 	void	draw();
-private:
-	int		mLineWidth;
+private:;
 };
 
 Circlef::Circlef()
-	:mLineWidth(1)
 {
 }
 
-inline void Circlef::setLineWidth(int width)
-{
-	mLineWidth = width;
-}
 
 inline void Circlef::draw()
 {

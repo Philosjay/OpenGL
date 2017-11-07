@@ -80,7 +80,7 @@ inline void UI::processInput(int x, int y)
 		}
 
 	}
-	else if ((x >= 50 && x <= 1130) && (y >= 50 && y <= 650))
+	if ((x >= 50 && x <= 1130) && (y >= 50 && y <= 650))
 	{
 		isdrawing = true;
 	}
