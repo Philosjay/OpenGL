@@ -68,49 +68,7 @@ private:
 	bool	isActive;
 	int		bottonType;
 };
-Botton::Botton():
-	Widget(),
-	isActive(false)
-{
-}
 
-inline void Botton::setActive(bool isActive)
-{
-	this->isActive = isActive;
-	if (isActive) {
-		mLayers[Layer::Buttom]->setColor(Color::Grey2);
-	}
-	else {
-		mLayers[Layer::Buttom]->setColor(Color::Grey);
-	}
-
-}
-inline bool Botton::isWidgetActive(int x, int y)
-{
-	if ((x >= posX && x <= posX + sizeX) && (y >= posY&&y <= posY + sizeY)) {
-		return true;
-	}
-	else {
-		return false;
-	}
-	return isActive;
-}
-inline void Botton::setType(Menu i)
-{
-	bottonType = i;
-}
-inline void Botton::setType(ToolSet i)
-{
-	bottonType = i;
-}
-inline void Botton::setType(LineWidthSet i)
-{
-	bottonType = i;
-}
-inline void Botton::setType(Color i)
-{
-	bottonType = i;
-}
 
 #endif // !BOTTON_H_
 #pragma once

@@ -34,68 +34,14 @@ protected:
 	//用于动态绘制图形
 	int curPosX, curPosY;
 	int motionPosX, motionPosY;
+	GLfloat R;
+
+	//一些用于绘图的常量参数
+	const int n;
+	const GLfloat Pi;
 
 };
-Graph::Graph()
-	:mLineWidth(1)
-{
-}
 
-
-inline void Graph::setCurPos(int x, int y)
-{
-	curPosX = x;
-	curPosY = y;
-}
-
-inline void Graph::setMotionPos(int x, int y)
-{
-	motionPosX = x;
-	motionPosY = y;
-}
-
-inline void Graph::setLineWidth(int width)
-{
-	mLineWidth = width;
-}
-
-inline void Graph::setStartPoint(int x, int y)
-{
-}
-
-inline void Graph::setEndPoint(int x, int y)
-{
-}
-
-inline void Graph::setStatus(int status)
-{
-}
-
-inline void Graph::setRef1Point(int x, int y)
-{
-}
-
-inline void Graph::setRef2Point(int x, int y)
-{
-}
-
-inline void Graph::preview(int type, int color, int lineWidth, int curPosX, int curPosY, int motionPosX, int motionPosY)
-{
-	setType(type);
-	setCurPos(curPosX, curPosY);
-	setMotionPos(motionPosX, motionPosY);
-	setColor(color);
-	setLineWidth(lineWidth);
-}
-
-inline void Graph::updateStatus()
-{
-}
-
-inline int Graph::getStatus()
-{
-	return 0;
-}
 
 #endif // !GRAPH_H_
 #pragma once
