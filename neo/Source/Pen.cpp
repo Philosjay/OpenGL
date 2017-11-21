@@ -2,6 +2,7 @@
 
 Pen::Pen()
 {
+	requiredClicks = 0;
 }
 
 void Pen::draw()

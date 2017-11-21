@@ -2,6 +2,7 @@
 
 Line::Line()
 {
+	requiredClicks = 1;
 }
 
 inline void Line::draw()

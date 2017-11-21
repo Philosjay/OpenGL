@@ -6,23 +6,12 @@
 class Bezier:public Graph
 {
 public:
-	enum CurveStatus
-	{
-		init,
-		ref1,
-		ref2,
-		end,
-	};
 	Bezier();
 	
-	void	setStartPoint(int x, int y);
-	void	setEndPoint(int x, int y);
-	void	setRef1Point(int x, int y);
-	void	setRef2Point(int x, int y);
+	void	setRefPoint(int x, int y, int num);
 	void	draw();
-	void	preview(int curPosX, int curPosY, int motionPosX, int motionPosY);
-	void	updateStatus();
-	virtual int getStatus();
+
+	void	update(int x, int y);
 
 private:
 
@@ -31,7 +20,6 @@ private:
 	int		count;
 	VECTOR points[4];
 	int		mStatus;
-	bool	isSettingRef1;
 
 	void	setStatus(int status);
 };

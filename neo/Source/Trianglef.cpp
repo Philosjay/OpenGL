@@ -3,6 +3,7 @@
 
 Trianglef::Trianglef()
 {
+	requiredClicks = 1;
 }
 
 bool Trianglef::isGrabbed(int x, int y)

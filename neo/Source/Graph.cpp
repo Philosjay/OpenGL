@@ -1,8 +1,7 @@
 #include "../Include/Graph.h"
 
 Graph::Graph()
-	:mLineWidth(1)
-	, n(1000)
+	: n(1000)
 	, Pi(3.1415926536f)
 	, originPosX(0)
 	, originPosY(0)
@@ -19,10 +18,10 @@ void Graph::setOriginPos(int x, int y)
 	updateCenter();
 }
 
-void Graph::setCenter(int x, int y)
+void Graph::move(int x, int y)
 {
-	centerX = x;
-	centerY = y;
+	centerX += x;
+	centerY += y;
 }
 
 void Graph::setMotionPos(int x, int y)
@@ -31,22 +30,7 @@ void Graph::setMotionPos(int x, int y)
 	motionPosY = y;
 }
 
-void Graph::setLineWidth(int width)
-{
-	mLineWidth = width;
-}
 
-void Graph::setStartPoint(int x, int y)
-{
-}
-
-void Graph::setEndPoint(int x, int y)
-{
-}
-
-void Graph::setStatus(int status)
-{
-}
 
 void Graph::setCenter()
 {
@@ -56,15 +40,12 @@ void Graph::setCenter()
 	printf("----------------------------------Center X: %d  Y: %d\n", centerX, centerY);
 }
 
-void Graph::setRef1Point(int x, int y)
+void Graph::setRefPoint(int x, int y, int num)
 {
+	//do nothing by default
 }
 
-void Graph::setRef2Point(int x, int y)
-{
-}
-
-void Graph::preview(int motionPosX, int motionPosY)
+void Graph::update(int motionPosX, int motionPosY)
 {
 	setMotionPos(motionPosX, motionPosY);
 
@@ -73,15 +54,6 @@ void Graph::preview(int motionPosX, int motionPosY)
 	setSize(length,height);
 
 	setCenter();
-}
-
-void Graph::updateStatus()
-{
-}
-
-int Graph::getStatus()
-{
-	return 0;
 }
 
 bool Graph::isGrabbed(int x, int y)

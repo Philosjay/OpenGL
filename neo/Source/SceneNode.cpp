@@ -2,7 +2,6 @@
 #include <iostream>
 
 SceneNode::SceneNode() :
-	Object(),
 	next(NULL),
 	isLineVisible(false),
 	isTextureEnable(false)
@@ -15,7 +14,7 @@ void SceneNode::setSize(float x, float y)
 }
 inline void SceneNode::setLineWidth(int width)
 {
-	//Do nothing by default
+	mLineWidth = width;
 }
 void SceneNode::setLineVisible(bool is)
 {

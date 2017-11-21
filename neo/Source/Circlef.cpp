@@ -1,7 +1,9 @@
 #include "../Include/Circlef.h"
 
 Circlef::Circlef()
+	: R(0)
 {
+	requiredClicks = 1;
 }
 bool Circlef::isGrabbed(int x, int y)
 {
@@ -56,19 +58,32 @@ inline void Circlef::draw()
 	default:
 		break;
 	}
-	R = sqrtf(((float)motionPosX - (float)originPosX)*((float)motionPosX - (float)originPosX)
-		+ ((float)motionPosY - (float)originPosY)*((float)motionPosY - (float)originPosY)) / 2;
+
 
 	glLineWidth(2);
 	//draw（）的关键代码
 	glBegin(GL_POLYGON);
 	if (motionPosX >= originPosX && motionPosY <= originPosY) {
 		for (int i = 0; i < n; ++i)
-			//centerX, centerY 是中心点，R是半径，n是取样点
+			glVertex3f(centerX + R*cos(2 * Pi / n*i), centerY + R*sin(2 * Pi / n*i), 0);
+	}
+	else if (motionPosX >= originPosX && motionPosY >= originPosY) {
+		for (int i = 0; i < n; ++i)
+			glVertex3f(centerX + R*cos(2 * Pi / n*i), centerY + R*sin(2 * Pi / n*i), 0);
+	}
+	else if (motionPosX <= originPosX && motionPosY <= originPosY) {
+		for (int i = 0; i < n; ++i)
+			glVertex3f(centerX + R*cos(2 * Pi / n*i), centerY + R*sin(2 * Pi / n*i), 0);
+	}
+	else if (motionPosX <= originPosX && motionPosY >= originPosY) {
+		for (int i = 0; i < n; ++i)
 			glVertex3f(centerX + R*cos(2 * Pi / n*i), centerY + R*sin(2 * Pi / n*i), 0);
 	}
 
 	glEnd();
 
 	glPopMatrix();
+
+	R = sqrtf(((float)motionPosX - (float)originPosX)*((float)motionPosX - (float)originPosX)
+		+ ((float)motionPosY - (float)originPosY)*((float)motionPosY - (float)originPosY)) / 2;
 }

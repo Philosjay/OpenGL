@@ -1,7 +1,10 @@
 #include "../Include/Ellipse.h"
 
 Ellipse_::Ellipse_()
+	: R1(0)
+	, R2(0)
 {
+	requiredClicks = 1;
 }
 
 bool Ellipse_::isGrabbed(int x, int y)
@@ -56,8 +59,7 @@ inline void Ellipse_::draw()
 	default:
 		break;
 	}
-	R1 = sqrtf(((float)motionPosX - (float)originPosX)*((float)motionPosX - (float)originPosX)) / 2;
-	R2 = sqrtf(((float)motionPosY - (float)originPosY)*((float)motionPosY - (float)originPosY)) / 2;
+
 
 	glLineWidth(mLineWidth * 2);
 	glBegin(GL_LINE_LOOP);
@@ -66,4 +68,7 @@ inline void Ellipse_::draw()
 	glEnd();
 
 	glPopMatrix();
+
+	R1 = sqrtf(((float)motionPosX - (float)originPosX)*((float)motionPosX - (float)originPosX)) / 2;
+	R2 = sqrtf(((float)motionPosY - (float)originPosY)*((float)motionPosY - (float)originPosY)) / 2;
 }

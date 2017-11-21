@@ -3,6 +3,7 @@
 
 Rect::Rect()
 {
+	requiredClicks = 1;
 }
 bool Rect::isGrabbed(int x, int y)
 {

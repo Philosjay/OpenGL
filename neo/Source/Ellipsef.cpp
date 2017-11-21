@@ -2,7 +2,10 @@
 
 Ellipsef_::Ellipsef_()
 	:mLineWidth(1)
+	, R1(0)
+	, R2(0)
 {
+	requiredClicks = 1;
 }
 
 bool Ellipsef_::isGrabbed(int x, int y)
@@ -61,8 +64,7 @@ inline void Ellipsef_::draw()
 	default:
 		break;
 	}
-	R1 = sqrtf(((float)motionPosX - (float)originPosX)*((float)motionPosX - (float)originPosX)) / 2;
-	R2 = sqrtf(((float)motionPosY - (float)originPosY)*((float)motionPosY - (float)originPosY)) / 2;
+
 
 	glLineWidth(mLineWidth * 2);
 	glBegin(GL_POLYGON);
@@ -71,4 +73,7 @@ inline void Ellipsef_::draw()
 	glEnd();
 
 	glPopMatrix();
+
+	R1 = sqrtf(((float)motionPosX - (float)originPosX)*((float)motionPosX - (float)originPosX)) / 2;
+	R2 = sqrtf(((float)motionPosY - (float)originPosY)*((float)motionPosY - (float)originPosY)) / 2;
 }

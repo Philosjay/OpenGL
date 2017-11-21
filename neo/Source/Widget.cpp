@@ -109,8 +109,6 @@ void Widget::setSize(int x, int y)
 }
 void Widget::setPos(int x, int y)
 {
-	posX = x;
-	posY = y;
 
 	mLayers[Layer::Buttom]->setOriginPos(x, y);
 	mLayers[Layer::Buttom]->setLineVisible(true);

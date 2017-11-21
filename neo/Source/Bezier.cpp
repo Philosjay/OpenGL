@@ -3,55 +3,29 @@
 
 Bezier::Bezier()
 	:count(10000)
-	, mStatus(init)
+
 {
+
+	requiredClicks = 3;
 }
 
-inline void Bezier::setStartPoint(int x, int y)
-{
-	points[0][0] = x;
-	points[0][1] = y;
 
-}
-
-inline void Bezier::setEndPoint(int x, int y)
+void Bezier::setRefPoint(int x, int y,int num)
 {
-	points[3][0] = x;
-	points[3][1] = y;
-}
-
-inline void Bezier::setRef1Point(int x, int y)
-{
-	points[1][0] = x;
-	points[1][1] = y;
-}
-
-inline void Bezier::setRef2Point(int x, int y)
-{
-	points[2][0] = x;
-	points[2][1] = y;
+		points[num][0] = x;
+		points[num][1] = y;
 }
 
 inline void Bezier::draw()
 {
-	points[3][0] = motionPosX;
-	points[3][1] = motionPosY;
-
-	points[0][0] = originPosX;
-	points[0][1] = originPosY;
-
 
 	VECTOR c[4];//此矩阵是P和M的积，就是控制点阵和Bezier基矩阵的乘积  
 	for (int i = 0; i<2; i++)
 	{
-
 		c[3][i] = (0 - points[0][i]) + 3 * points[1][i] - 3 * points[2][i] + points[3][i];
 		c[2][i] = 3 * points[0][i] - 6 * points[1][i] + 3 * points[2][i];
 		c[1][i] = (0 - 3 * points[0][i]) + 3 * points[1][i];
 		c[0][i] = points[0][i];
-
-
-
 	}
 	GLfloat v[2];
 	GLfloat newV[2];
@@ -119,73 +93,33 @@ inline void Bezier::draw()
 	//	glFlush();x
 }
 
-void Bezier::preview(int curPosX, int curPosY, int motionPosX, int motionPosY)
+
+void Bezier::update(int x, int y)
 {
+	int n = requiredClicks;
 
-
-	static float disToStart = 0;
-	static float disToEnd = 0;
-
-	switch (mStatus)
+	switch (n)
 	{
-	case init:
-		setStartPoint(originPosX, originPosY);
-		setEndPoint(motionPosX, motionPosY);
-
-		setOriginPos(originPosX, originPosY);
-		setMotionPos(motionPosX, motionPosY);
-		setRef1Point(originPosX, originPosY);
-		setRef2Point(motionPosX, motionPosY);
-
+	case 3:
+		setRefPoint(x, y, 0);
+		setRefPoint(x, y, 1);
+		setRefPoint(x, y, 2); 
+		setRefPoint(x, y, 3);
 
 		break;
-	case ref1:
-		disToStart = sqrtf(((float)originPosX - (float)points[0][0])*((float)originPosX - (float)points[0][0])
-			+ ((float)originPosY - (float)points[0][1])*((float)originPosY - (float)points[0][1]));
-		disToEnd = sqrtf(((float)originPosX - (float)points[3][0])*((float)curPosX - (float)points[3][0])
-			+ ((float)originPosY - (float)points[3][1])*((float)curPosY - (float)points[3][1]));
-		if (disToStart <= disToEnd)
-		{
-			setRef1Point(motionPosX, motionPosY);
-		}
-		else {
-			setRef2Point(motionPosX, motionPosY);
-		}
+	case 2:
+		setRefPoint(x, y, 3);
+		setRefPoint(x, y, 2);
 		break;
-	case ref2:
-		if (disToStart <= disToEnd)
-		{
-			setRef2Point(motionPosX, motionPosY);
-		}
-		else {
-			setRef1Point(motionPosX, motionPosY);
-		}
+	case 1:
+		setRefPoint(x, y, 1);
+		break;
+	case 0:
+		setRefPoint(x, y, 2);
 		break;
 	default:
 		break;
 	}
-
-}
-
-inline void Bezier::updateStatus()
-{
-	if (mStatus == end) {
-		mStatus = init;
-	}
-	else if (mStatus == init) {
-		mStatus = ref1;
-	}
-	else if (mStatus == ref1) {
-		mStatus = ref2;
-	}
-	else if (mStatus == ref2) {
-		mStatus = end;
-	}
-}
-
-inline int Bezier::getStatus()
-{
-	return mStatus;
 }
 
 inline void Bezier::setStatus(int status)

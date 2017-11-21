@@ -1,7 +1,9 @@
 #include "../Include/Circle.h"
 
 Circle::Circle()
+	: R(0)
 {
+	requiredClicks = 1;
 }
 
 bool Circle::isGrabbed(int x, int y)
@@ -60,8 +62,7 @@ inline void Circle::draw()
 	default:
 		break;
 	}
-	R = sqrtf(((float)motionPosX - (float)originPosX)*((float)motionPosX - (float)originPosX)
-		+ ((float)motionPosY - (float)originPosY)*((float)motionPosY - (float)originPosY)) / 2;
+
 
 	glLineWidth(mLineWidth * 2);
 	glBegin(GL_LINE_LOOP);
@@ -84,4 +85,7 @@ inline void Circle::draw()
 	glEnd();
 
 	glPopMatrix();
+
+	R = sqrtf(((float)motionPosX - (float)originPosX)*((float)motionPosX - (float)originPosX)
+		+ ((float)motionPosY - (float)originPosY)*((float)motionPosY - (float)originPosY)) / 2;
 }

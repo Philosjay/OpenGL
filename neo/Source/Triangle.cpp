@@ -2,6 +2,7 @@
 
 Triangle::Triangle()
 {
+	requiredClicks = 1;
 }
 bool Triangle::isGrabbed(int x, int y)
 {

@@ -2,6 +2,7 @@
 
 Rectf::Rectf()
 {
+	requiredClicks = 1;
 }
 bool Rectf::isGrabbed(int x, int y)
 {

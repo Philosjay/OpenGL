@@ -3,11 +3,10 @@
 
 #include <GL/glut.h>
 
-#include "Object.h"
 
 #define BMP_Header_Length 54
 
-class SceneNode: public Object
+class SceneNode
 {
 public:
 	enum Type
@@ -62,9 +61,6 @@ public:
 	void	setTexture(GLuint texture) { this->texture = texture; }
 	void	setTextureEnable(bool isAble) { isTextureEnable = isAble; }
 private:
-	
-	
-
 
 	SceneNode*	next;
 
@@ -73,7 +69,7 @@ protected:
 	int		mType;
 	float	length;
 	float	height;
-
+	int		mLineWidth;
 	GLuint  texture;
 	bool	isTextureEnable;
 	bool	isLineVisible;
