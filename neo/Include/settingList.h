@@ -18,6 +18,7 @@
 		cirClef,
 		ellipsef,
 		rectf,
+		polygon,
 
 
 		ToolCount,

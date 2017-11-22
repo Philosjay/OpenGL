@@ -7,7 +7,7 @@ class Line:public Graph
 {
 public:
 	Line();
-
+	bool	isGrabbed(int x, int y);
 	void	draw();
 private:
 };

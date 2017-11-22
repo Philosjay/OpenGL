@@ -14,20 +14,18 @@ public:
 
 	void			setColor(int color) { mColor = color; }
 	void			setSize(float length, float height);
-	void			moveTo(int x, int y);
-	void			move(int x, int y);
-	virtual void			setEndPos(int x, int y);
+	virtual	void			moveTo(int x, int y);
+	virtual void			move(int x, int y);
+	virtual void	setEndPos(int x, int y);
 	virtual void	setLineWidth(int width);
-	void				setLineVisible(bool is);
+	void			setLineVisible(bool is);
 	void	setTexture(GLuint texture) { this->texture = texture; }
 	void	setTextureEnable(bool isAble) { isTextureEnable = isAble; }
 
 	virtual		void	draw();
 	virtual		void	loadTexture(char *file);
 private:
-
-	SceneNode*	next;
-
+	SceneNode*		next;
 protected:
 	//绘图矩形的左上顶点
 	int startPosX, startPosY;

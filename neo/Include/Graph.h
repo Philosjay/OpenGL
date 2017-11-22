@@ -11,9 +11,12 @@ class Graph :public SceneNode
 public:
 	Graph();
 
+	//设置指定参考点，用于特殊图形绘制，如Bezier曲线
 	virtual	void setRefPoint(int x, int y, int num);
+
 	virtual bool isGrabbed(int x,int y);
 
+	//区分绘图所需点击数，用于特殊图形绘制，如Bezier曲线
 	int		requiredClicks;
 private:
 

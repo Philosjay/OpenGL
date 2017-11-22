@@ -14,52 +14,43 @@ UI::UI()
 
 void UI::processInput(int x, int y)
 {
-	//检测工具区域
-	if ((x >= 930 && x <= 1330) && (y >= 650 && y <= 730) ||
-		((x >= 1170 && x <= 1290) && (y >= 450 && y <= 600)))
-	{
-		for (int i = 0; i < ToolSet::ToolCount; i++) {
-			if (mToolBottons[i] != NULL) {
-				if (mToolBottons[i]->isGrabbed(x, y) && i != lastActiveTool) {
-					mToolBottons[i]->setActive(true);
-					mToolBottons[lastActiveTool]->setActive(false);
-					lastActiveTool = i;
-				}
+	for (int i = 0; i < ToolSet::ToolCount; i++) {
+		if (mToolBottons[i] != NULL) {
+			if (mToolBottons[i]->isGrabbed(x, y) && i != lastActiveTool) {
+				mToolBottons[i]->setActive(true);
+				mToolBottons[lastActiveTool]->setActive(false);
+				lastActiveTool = i;
 			}
-
 		}
 
 	}
-	//检测线粗区域
-	else if ((x >= 1170 && x <= 1290) && (y >= 280 && y <= 400))
-	{
-		for (int i = 0; i < LineWidthSet::WidthCount; i++) {
-			if (mLineWidthBottons[i] != NULL) {
-				if (mLineWidthBottons[i]->isGrabbed(x, y) && i != lastActiveLineWidth) {
-					mLineWidthBottons[i]->setActive(true);
-					mLineWidthBottons[lastActiveLineWidth]->setActive(false);
-					lastActiveLineWidth = i;
-				}
+	for (int i = 0; i < LineWidthSet::WidthCount; i++) {
+		if (mLineWidthBottons[i] != NULL) {
+			if (mLineWidthBottons[i]->isGrabbed(x, y) && i != lastActiveLineWidth) {
+				mLineWidthBottons[i]->setActive(true);
+				mLineWidthBottons[lastActiveLineWidth]->setActive(false);
+				lastActiveLineWidth = i;
 			}
-
 		}
 
 	}
-	//检测颜色区域
-	else if ((x >= 117 && x <= 1290) && (y >= 100 && y <= 220))
-	{
-		for (int i = 0; i < ColorSet::ColorCount; i++) {
-			if (mColorBottons[i] != NULL) {
-				if (mColorBottons[i]->isGrabbed(x, y) && i != lastActiveColor) {
-					mColorBottons[i]->setActive(true);
-					mColorBottons[lastActiveColor]->setActive(false);
-					lastActiveColor = i;
-				}
+	for (int i = 0; i < ColorSet::ColorCount; i++) {
+		if (mColorBottons[i] != NULL) {
+			if (mColorBottons[i]->isGrabbed(x, y) && i != lastActiveColor) {
+				mColorBottons[i]->setActive(true);
+				mColorBottons[lastActiveColor]->setActive(false);
+				lastActiveColor = i;
 			}
-
 		}
 
 	}
+	for (int i = 0; i < MenuSet::MenuCount; i++) {
+		mMenuBottons[i]->setActive(false);
+		if (mMenuBottons[i]->isGrabbed(x, y)) {
+			mMenuBottons[i]->setActive(true);
+		}
+	}
+	
 	if ((x >= 50 && x <= 1130) && (y >= 50 && y <= 650))
 	{
 		isdrawing = true;
@@ -70,12 +61,7 @@ void UI::processInput(int x, int y)
 
 	//检测选项区域
 
-	for (int i = 0; i < MenuSet::MenuCount; i++) {
-		mMenuBottons[i]->setActive(false);
-		if (mMenuBottons[i]->isGrabbed(x, y)) {
-			mMenuBottons[i]->setActive(true);
-		}
-	}
+	
 
 }
 
@@ -282,6 +268,12 @@ void UI::widgets()
 	widet->setPos(1230, 480);
 	widet->loadTexture("Textures/rectangle2.bmp");
 	mToolBottons[ToolSet::rectf] = widet;
+
+	widet = new Botton;
+	widet->setSize(60, 30);
+	widet->setPos(1230, 450);
+//	widet->loadTexture("Textures/rectangle2.bmp");
+	mToolBottons[ToolSet::polygon] = widet;
 
 	//线宽栏
 

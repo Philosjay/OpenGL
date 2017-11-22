@@ -3,25 +3,24 @@
 
 #include "Graph.h"
 
-class Bezier:public Graph
+class Bezier : public Graph
 {
 public:
 	Bezier();
-	
+	bool	isGrabbed(int x, int y);
 	void	setRefPoint(int x, int y, int num);
 	void	draw();
-
+	void	move(int x, int y);
 	void	setEndPos(int x, int y);
 
 private:
 
 
 	typedef GLfloat VECTOR[2];
+	//取样点总数
 	int		count;
 	VECTOR points[4];
-	int		mStatus;
 
-	void	setStatus(int status);
 };
 
 

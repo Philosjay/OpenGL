@@ -30,7 +30,6 @@ public:
 	Graph*	generateGraph(int type);
 private:
 
-
 	void	render();
 	void	processUserInput();
 	void	getFeedback();

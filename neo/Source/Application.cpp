@@ -16,6 +16,7 @@
 #include "../Include/Eraser.h"
 #include "../Include/Pen.h"
 #include "../Include/Bezier.h"
+#include "../Include/Polygon.h"
 #include "../Include/settingList.h"
 
 
@@ -75,6 +76,12 @@ void mouseButton(int button, int state, int x, int y)
 				switch (app->curStatus)
 				{
 				case Application::DrawSingle:
+					//更新当前图形所需点击数量
+					if (newGraph != NULL) {
+						newGraph->requiredClicks--;
+						newGraph->setEndPos(curPosX, curPosY);
+					}
+
 					if (newGraph == NULL) {
 						newGraph = app->generateGraph(window->getActiveTool());
 						if (newGraph != NULL) {
@@ -83,12 +90,10 @@ void mouseButton(int button, int state, int x, int y)
 							newGraph->setLineWidth(window->getActiveLineWidth());
 							newGraph->setEndPos(curPosX, curPosY);
 							world->addGraph(newGraph);
+							newGraph->requiredClicks--;
 						}
 					}
-					//更新当前图形所需点击数量
-					if (newGraph != NULL) {
-						newGraph->requiredClicks--;
-					}
+
 					break;
 				case Application::Drag:
 					grab = world->grab(curPosX, curPosY);
@@ -111,6 +116,18 @@ void mouseButton(int button, int state, int x, int y)
 			grab = NULL;
 			break;
 		}
+		break;
+	case GLUT_RIGHT_BUTTON:
+		switch (state)
+		{
+		case GLUT_DOWN:
+			//点击右键结束绘图
+			newGraph = NULL;
+			break;
+		default:
+			break;
+		}
+
 		break;
 	case GLUT_MIDDLE_BUTTON:
 
@@ -136,6 +153,7 @@ void mouseMotion(int x, int y)
 	{
 	case Application::DrawSingle:
 		if (window->isInPaper()) {
+			if(newGraph!=NULL)
 			newGraph->setEndPos(endPosX, endPosY);
 		}
 		break;
@@ -191,6 +209,7 @@ void Application::updateStatus(int n)
 	case ToolSet::ellipse:
 	case ToolSet::ellipsef:
 	case ToolSet::curve:
+	case ToolSet::polygon:
 		curStatus = Application::Status::DrawSingle;
 		break;
 	case ToolSet::drager:
@@ -246,14 +265,14 @@ Graph * Application::generateGraph(int type)
 		break;
 	case ToolSet::curve:
 		mTmp = new Bezier;
+		break;
+	case ToolSet::polygon:
+		mTmp = new Polygon;
+		break;
 	default:
 		break;
 	}
 	return mTmp;
-}
-void displayMenu() {
-	window->draw();
-
 }
 void display() {
 	//清空画布
