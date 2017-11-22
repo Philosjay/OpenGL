@@ -23,10 +23,10 @@ private:
 	bool	isdrawing;
 
 	Graph*	mBackground[10];
-	Graph*	mToolBottons[100];
-	Graph*	mLineWidthBottons[100];
-	Graph*	mColorBottons[100];
-	Graph*	mMenuBottons[100];
+	Botton*	mToolBottons[100];
+	Botton*	mLineWidthBottons[100];
+	Botton*	mColorBottons[100];
+	Botton*	mMenuBottons[100];
 	int			backgroundCount;
 
 	void	init();

@@ -1,14 +1,15 @@
 #include "../Include/Widget.h"
 #include "../Include/Rectf.h"
+#include "../Include/settingList.h"
 
 Widget::Widget() 
 {
 	mLayers[Layer::Buttom] = new class Rectf;
-	mLayers[Layer::Buttom]->setColor(Color::Grey);
+	mLayers[Layer::Buttom]->setColor(ColorSet::Grey);
 
 
 	mLayers[Layer::Top] = new class Rectf;
-	mLayers[Layer::Top]->setColor(Color::Green);
+	mLayers[Layer::Top]->setColor(ColorSet::Green);
 }
 void Widget::loadTexture(char *file)
 {
@@ -94,11 +95,6 @@ void Widget::loadTexture(char *file)
 }
 void Widget::setSize(int x, int y)
 {
-	length = x;
-	height = y;
-
-	mLayers[Layer::Buttom]->setSize(x, y);
-	mLayers[Layer::Top]->setSize(x*0.8, y*0.8);
 
 	layerSize[Layer::Buttom].x = x;
 	layerSize[Layer::Buttom].y = y;
@@ -109,13 +105,18 @@ void Widget::setSize(int x, int y)
 }
 void Widget::setPos(int x, int y)
 {
-
-	mLayers[Layer::Buttom]->setOriginPos(x, y);
+	int width = layerSize[Layer::Buttom].x;
+	int height = layerSize[Layer::Buttom].y;
+	mLayers[Layer::Buttom]->moveTo(x, y);
 	mLayers[Layer::Buttom]->setLineVisible(true);
+	mLayers[Layer::Buttom]->setEndPos(x+width,y-height);
 
-	mLayers[Layer::Top]->setOriginPos(x + (layerSize[Layer::Buttom].x - layerSize[Layer::Top].x) / 2,
+	width = layerSize[Layer::Top].x;
+	height = layerSize[Layer::Top].y;
+	mLayers[Layer::Top]->moveTo(x + (layerSize[Layer::Buttom].x - layerSize[Layer::Top].x) / 2,
 		y - (layerSize[Layer::Buttom].y - layerSize[Layer::Top].y)/2 );
 	mLayers[Layer::Top]->setLineVisible(true);
+	mLayers[Layer::Top]->setEndPos(x + width, y - height);
 }
 void Widget::draw()
 {

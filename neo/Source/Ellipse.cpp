@@ -9,6 +9,9 @@ Ellipse_::Ellipse_()
 
 bool Ellipse_::isGrabbed(int x, int y)
 {
+	float centerX = (startPosX + endPosX) / 2;
+	float centerY = (startPosY + endPosY) / 2;
+
 	float x0 = x - centerX;
 	float y0 = y - centerY;
 
@@ -21,44 +24,13 @@ bool Ellipse_::isGrabbed(int x, int y)
 
 inline void Ellipse_::draw()
 {
+	float centerX = (startPosX + endPosX) / 2;
+	float centerY = (startPosY + endPosY) / 2;
+
 	glPushMatrix();
 
-	//…Ë÷√—’…´
-	switch (SceneNode::mColor)
-	{
-	case Color::Red:
-		glColor3f(1, 0, 0);
-		break;
-	case Color::Green:
-		glColor3f(0, 1, 0);
-		break;
-	case Color::Blue:
-		glColor3f(0, 0, 1);
-		break;
-	case Color::Yellow:
-		glColor3f(1, 1, 0);
-		break;
-	case Color::Black:
-		glColor3f(0, 0, 0);
-		break;
-	case Color::Purple:
-		glColor3f(1, 0, 1);
-		break;
-	case Color::Orange:
-		glColor3f(1, 0.5, 0);
-		break;
-	case Color::White:
-		glColor3f(1, 1, 1);
-		break;
-	case Color::Grey:
-		glColor3f(0.8, 0.8, 0.8);
-		break;
-	case Color::Grey2:
-		glColor3f(0.5, 0.5, 0.5);
-		break;
-	default:
-		break;
-	}
+	applyColor();
+	applyLineWidth();
 
 
 	glLineWidth(mLineWidth * 2);
@@ -69,6 +41,6 @@ inline void Ellipse_::draw()
 
 	glPopMatrix();
 
-	R1 = sqrtf(((float)motionPosX - (float)originPosX)*((float)motionPosX - (float)originPosX)) / 2;
-	R2 = sqrtf(((float)motionPosY - (float)originPosY)*((float)motionPosY - (float)originPosY)) / 2;
+	R1 = sqrtf(((float)endPosX - (float)startPosX)*((float)endPosX - (float)startPosX)) / 2;
+	R2 = sqrtf(((float)endPosY - (float)startPosY)*((float)endPosY - (float)startPosY)) / 2;
 }

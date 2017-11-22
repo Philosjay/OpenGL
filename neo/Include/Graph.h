@@ -5,34 +5,20 @@
 
 #include "SceneNode.h"
 
-
+//Graph类新增绘制图形所需点击处理接口、拖拽方法的接口
 class Graph :public SceneNode
 {
 public:
 	Graph();
 
-	void	setOriginPos(int x, int y);
-	void	move(int x, int y);
-	void	setMotionPos(int x, int y);
-	void	setCenter();
 	virtual	void setRefPoint(int x, int y, int num);
-	virtual void update(int motionPosX, int motionPosY);
 	virtual bool isGrabbed(int x,int y);
 
 	int		requiredClicks;
 private:
-	void	updateCenter();
 
 	
 protected:
-
-	//绘图矩形的左上顶点
-	int originPosX, originPosY;
-	//绘图矩形的右下顶点
-	int motionPosX, motionPosY;
-	//绘图矩形的中心
-	float centerX;
-	float centerY;
 
 	//一些用于绘图的常量参数
 	const int n;

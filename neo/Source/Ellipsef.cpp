@@ -10,6 +10,9 @@ Ellipsef_::Ellipsef_()
 
 bool Ellipsef_::isGrabbed(int x, int y)
 {
+	float centerX = (startPosX + endPosX) / 2;
+	float centerY = (startPosY + endPosY) / 2;
+
 	float x0 = x - centerX;
 	float y0 = y - centerY;
 
@@ -26,47 +29,12 @@ inline void Ellipsef_::setLineWidth(int width)
 
 inline void Ellipsef_::draw()
 {
+	float centerX = (startPosX + endPosX) / 2;
+	float centerY = (startPosY + endPosY) / 2;
+
 	glPushMatrix();
 
-	//…Ë÷√—’…´
-	switch (SceneNode::mColor)
-	{
-	case Color::Red:
-		glColor3f(1, 0, 0);
-		break;
-	case Color::Green:
-		glColor3f(0, 1, 0);
-		break;
-	case Color::Blue:
-		glColor3f(0, 0, 1);
-		break;
-	case Color::Yellow:
-		glColor3f(1, 1, 0);
-		break;
-	case Color::Black:
-		glColor3f(0, 0, 0);
-		break;
-	case Color::Purple:
-		glColor3f(1, 0, 1);
-		break;
-	case Color::Orange:
-		glColor3f(1, 0.5, 0);
-		break;
-	case Color::White:
-		glColor3f(1, 1, 1);
-		break;
-	case Color::Grey:
-		glColor3f(0.8, 0.8, 0.8);
-		break;
-	case Color::Grey2:
-		glColor3f(0.5, 0.5, 0.5);
-		break;
-	default:
-		break;
-	}
-
-
-	glLineWidth(mLineWidth * 2);
+	
 	glBegin(GL_POLYGON);
 	for (int i = 0; i < n; ++i)
 		glVertex3f(centerX + R1*cos(2 * PI / n*i), centerY - R2*sin(2 * PI / n*i), 0);
@@ -74,6 +42,6 @@ inline void Ellipsef_::draw()
 
 	glPopMatrix();
 
-	R1 = sqrtf(((float)motionPosX - (float)originPosX)*((float)motionPosX - (float)originPosX)) / 2;
-	R2 = sqrtf(((float)motionPosY - (float)originPosY)*((float)motionPosY - (float)originPosY)) / 2;
+	R1 = sqrtf(((float)endPosX - (float)startPosX)*((float)endPosX - (float)startPosX)) / 2;
+	R2 = sqrtf(((float)endPosY - (float)startPosY)*((float)endPosY - (float)startPosY)) / 2;
 }

@@ -6,6 +6,12 @@ Rectf::Rectf()
 }
 bool Rectf::isGrabbed(int x, int y)
 {
+	int centerX = (startPosX + endPosX) / 2;
+	int centerY = (startPosY + endPosY) / 2;
+
+	int length = endPosX > startPosX ? endPosX - startPosX : startPosX - endPosX;
+	int	height = endPosY > startPosY ? endPosY - startPosY : startPosY - endPosY;
+
 	if (x < centerX + length / 2 && x > centerX - length / 2) {
 		if (y<centerY + height / 2 && y> centerY - height / 2) {
 			return true;
@@ -16,44 +22,16 @@ bool Rectf::isGrabbed(int x, int y)
 }
 inline void Rectf::draw()
 {
+	int centerX = (startPosX + endPosX) / 2;
+	int centerY = (startPosY + endPosY) / 2;
+
+	int length = endPosX > startPosX ? endPosX - startPosX : startPosX - endPosX;
+	int	height = endPosY > startPosY ? endPosY - startPosY : startPosY - endPosY;
+
 	glPushMatrix();
 
-	//…Ë÷√—’…´
-	switch (SceneNode::mColor)
-	{
-	case Color::Red:
-		glColor3f(1, 0, 0);
-		break;
-	case Color::Green:
-		glColor3f(0, 1, 0);
-		break;
-	case Color::Blue:
-		glColor3f(0, 0, 1);
-		break;
-	case Color::Yellow:
-		glColor3f(1, 1, 0);
-		break;
-	case Color::Black:
-		glColor3f(0, 0, 0);
-		break;
-	case Color::Purple:
-		glColor3f(1, 0, 1);
-		break;
-	case Color::Orange:
-		glColor3f(1, 0.5, 0);
-		break;
-	case Color::White:
-		glColor3f(1, 1, 1);
-		break;
-	case Color::Grey:
-		glColor3f(0.8, 0.8, 0.8);
-		break;
-	case Color::Grey2:
-		glColor3f(0.5, 0.5, 0.5);
-		break;
-	default:
-		break;
-	}
+	applyColor();
+
 
 	points[0][0] = centerX - length / 2;
 	points[0][1] = centerY - height / 2;

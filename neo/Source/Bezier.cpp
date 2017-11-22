@@ -18,6 +18,8 @@ void Bezier::setRefPoint(int x, int y,int num)
 
 inline void Bezier::draw()
 {
+	applyColor();
+	applyLineWidth();
 
 	VECTOR c[4];//此矩阵是P和M的积，就是控制点阵和Bezier基矩阵的乘积  
 	for (int i = 0; i<2; i++)
@@ -31,45 +33,6 @@ inline void Bezier::draw()
 	GLfloat newV[2];
 	GLfloat deltat = 1.0 / count;
 	GLfloat t = 0.0;
-
-
-
-	switch (mColor)
-	{
-	case Color::Red:
-		glColor3f(1, 0, 0);
-		break;
-	case Color::Green:
-		glColor3f(0, 1, 0);
-		break;
-	case Color::Blue:
-		glColor3f(0, 0, 1);
-		break;
-	case Color::Yellow:
-		glColor3f(1, 1, 0);
-		break;
-	case Color::Black:
-		glColor3f(0, 0, 0);
-		break;
-	case Color::Purple:
-		glColor3f(1, 0, 1);
-		break;
-	case Color::Orange:
-		glColor3f(1, 0.5, 0);
-		break;
-	case Color::White:
-		glColor3f(1, 1, 1);
-		break;
-	case Color::Grey:
-		glColor3f(0.8, 0.8, 0.8);
-		break;
-	case Color::Grey2:
-		glColor3f(0.5, 0.5, 0.5);
-		break;
-	default:
-		break;
-	}
-	glLineWidth(mLineWidth);
 	/*
 	glBegin(GL_LINE_STRIP);//绘制控制曲线
 	glVertex2fv(points[0]);
@@ -94,7 +57,7 @@ inline void Bezier::draw()
 }
 
 
-void Bezier::update(int x, int y)
+void Bezier::setEndPos(int x, int y)
 {
 	int n = requiredClicks;
 

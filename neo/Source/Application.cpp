@@ -16,6 +16,7 @@
 #include "../Include/Eraser.h"
 #include "../Include/Pen.h"
 #include "../Include/Bezier.h"
+#include "../Include/settingList.h"
 
 
 #include<iostream>
@@ -27,7 +28,7 @@ Application* app;
 Graph*	newGraph = NULL;
 
 int curPosX, curPosY;
-int motionPosX, motionPosY;
+int endPosX, endPosY;
 
 int mShapeStatus;
 int mLineWidthStatus;
@@ -66,8 +67,8 @@ void mouseButton(int button, int state, int x, int y)
 
 
 			window->update(curPosX, curPosY);
-			motionPosX = curPosX;
-			motionPosY = curPosY;
+			endPosX = curPosX;
+			endPosY = curPosY;
 			printf("is in paper %d \n", window->isInPaper());
 			if (window->isInPaper()) {
 				//根据所选工具调用不同的方法
@@ -77,10 +78,10 @@ void mouseButton(int button, int state, int x, int y)
 					if (newGraph == NULL) {
 						newGraph = app->generateGraph(window->getActiveTool());
 						if (newGraph != NULL) {
-							newGraph->setOriginPos(curPosX, curPosY);
+							newGraph->moveTo(curPosX, curPosY);
 							newGraph->setColor(window->getActiveColor());
 							newGraph->setLineWidth(window->getActiveLineWidth());
-							newGraph->update(curPosX, curPosY);
+							newGraph->setEndPos(curPosX, curPosY);
 							world->addGraph(newGraph);
 						}
 					}
@@ -125,41 +126,40 @@ void mouseButton(int button, int state, int x, int y)
 void mouseMotion(int x, int y)
 {
 	//换算后的坐标
-	motionPosX = x + 50;
-	motionPosY = 770 - y;
+	endPosX = x + 50;
+	endPosY = 770 - y;
 
 
-//	window->update(motionPosX, motionPosY);
+//	window->update(endPosX, endPosY);
 
 	switch (app->curStatus)
 	{
 	case Application::DrawSingle:
 		if (window->isInPaper()) {
-			newGraph->update(motionPosX, motionPosY);
+			newGraph->setEndPos(endPosX, endPosY);
 		}
 		break;
 	case Application::DrawConstant:
-		world->drawConstantGraph(mX0, mY0, motionPosX, motionPosY,
+		world->drawConstantGraph(mX0, mY0, endPosX, endPosY,
 			window->getActiveTool(), window->getActiveColor(), window->getActiveLineWidth() + 1);
-		mX0 = motionPosX;
-		mY0 = motionPosY;
+		mX0 = endPosX;
+		mY0 = endPosY;
 		break;
 	case Application::Drag:
 		//成功抓取图形，移动它
 		if (grab != NULL) {
-			int deltaX = motionPosX - mX0;
-			int deltaY = motionPosY - mY0;
+			int deltaX = endPosX - mX0;
+			int deltaY = endPosY - mY0;
 			grab->move(deltaX, deltaY);
-			
-			mX0 = motionPosX;
-			mY0 = motionPosY;
+			mX0 = endPosX;
+			mY0 = endPosY;
 		}
 		break;
 	default:
 		break;
 	}
 
-	printf("motion X %d Y %d\n", motionPosX, motionPosY);
+	printf("motion X %d Y %d\n", endPosX, endPosY);
 
 	
 
@@ -181,22 +181,23 @@ void Application::updateStatus(int n)
 {
 	switch (n)
 	{
-	case SceneNode::Line:
-	case SceneNode::Rect:
-	case SceneNode::Rectf:
-	case SceneNode::Triangle:
-	case SceneNode::Trianglef:
-	case SceneNode::CirCle:
-	case SceneNode::CirClef:
-	case SceneNode::Ellipse:
-	case SceneNode::Ellipsef:
+	case ToolSet::line:
+	case ToolSet::rect:
+	case ToolSet::rectf:
+	case ToolSet::triangle:
+	case ToolSet::trianglef:
+	case ToolSet::cirCle:
+	case ToolSet::cirClef:
+	case ToolSet::ellipse:
+	case ToolSet::ellipsef:
+	case ToolSet::curve:
 		curStatus = Application::Status::DrawSingle;
 		break;
-	case SceneNode::Brush:
+	case ToolSet::drager:
 		curStatus = Application::Status::Drag;
 		break;
-	case SceneNode::Pen:
-	case SceneNode::Eraser:
+	case ToolSet::pen:
+	case ToolSet::eraser:
 		curStatus = Application::Status::DrawConstant;
 		break;
 	default:
@@ -210,40 +211,40 @@ Graph * Application::generateGraph(int type)
 	Graph* mTmp = NULL;
 	switch (type)
 	{
-	case SceneNode::Line:
+	case ToolSet::line:
 		mTmp = new Line;
 		break;
-	case SceneNode::Rect:
+	case ToolSet::rect:
 		mTmp = new Rect;
 		break;
-	case SceneNode::Rectf:
+	case ToolSet::rectf:
 		mTmp = new Rectf;
 		break;
-	case SceneNode::Triangle:
+	case ToolSet::triangle:
 		mTmp = new Triangle;
 		break;
-	case SceneNode::Trianglef:
+	case ToolSet::trianglef:
 		mTmp = new Trianglef;
 		break;
-	case SceneNode::CirCle:
+	case ToolSet::cirCle:
 		mTmp = new Circle;
 		break;
-	case SceneNode::CirClef:
+	case ToolSet::cirClef:
 		mTmp = new Circlef;
 		break;
-	case SceneNode::Ellipse:
+	case ToolSet::ellipse:
 		mTmp = new Ellipse_;
 		break;
-	case SceneNode::Ellipsef:
+	case ToolSet::ellipsef:
 		mTmp = new Ellipsef_;
 		break;
-	case SceneNode::Eraser:
+	case ToolSet::eraser:
 		mTmp = new Eraser;
 		break;
-	case SceneNode::Pen:
+	case ToolSet::pen:
 		mTmp = new Pen;
 		break;
-	case SceneNode::Curve:
+	case ToolSet::curve:
 		mTmp = new Bezier;
 	default:
 		break;

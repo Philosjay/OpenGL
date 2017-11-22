@@ -3,6 +3,7 @@
 #include "../Include/Graph.h"
 #include "../Include/Eraser.h"
 #include "../Include/Pen.h"
+#include "../Include/settingList.h"
 
 
 World::World() :
@@ -47,16 +48,16 @@ int World::drawConstantGraph(int x0, int y0, int x1, int y1, int type, int color
 		//»­Í¼
 		switch (type)
 		{
-		case SceneNode::Eraser:
+		case ToolSet::eraser:
 			mTmp = new Eraser;
 			break;
-		case SceneNode::Pen:
+		case ToolSet::pen:
 			mTmp = new Pen;
 			break;
 		default:
 			break;
 		}
-		mTmp->setMotionPos((x1 + x0) / 2, (y1 + y0) / 2);
+		mTmp->setEndPos((x1 + x0) / 2, (y1 + y0) / 2);
 		mTmp->setLineWidth(size);
 		mTmp->setColor(color);
 		mGraphs[mGraphCount++] = mTmp;

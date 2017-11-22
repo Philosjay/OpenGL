@@ -1,4 +1,5 @@
 #include "../Include/SceneNode.h"
+#include "../Include/settingList.h"
 #include <iostream>
 
 SceneNode::SceneNode() :
@@ -12,9 +13,72 @@ void SceneNode::setSize(float x, float y)
 	length = x;
 	height = y;
 }
+void SceneNode::moveTo(int x, int y)
+{
+	//在分别移动两组参考点
+	startPosX = x;
+	startPosY = y;
+	endPosX = startPosX + length;
+	endPosY = startPosY - height;
+}
+void SceneNode::move(int x, int y)
+{
+	//在分别移动两组参考点
+	startPosX += x;
+	startPosY += y;
+	endPosX += x;
+	endPosY += y;
+}
+void SceneNode::setEndPos(int x, int y)
+{
+	endPosX = x;
+	endPosY = y;
+}
 inline void SceneNode::setLineWidth(int width)
 {
 	mLineWidth = width;
+}
+void SceneNode::applyColor()
+{	//设置颜色
+	switch (SceneNode::mColor)
+	{
+	case ColorSet::Red:
+		glColor3f(1, 0, 0);
+		break;
+	case ColorSet::Green:
+		glColor3f(0, 1, 0);
+		break;
+	case ColorSet::Blue:
+		glColor3f(0, 0, 1);
+		break;
+	case ColorSet::Yellow:
+		glColor3f(1, 1, 0);
+		break;
+	case ColorSet::Black:
+		glColor3f(0, 0, 0);
+		break;
+	case ColorSet::Purple:
+		glColor3f(1, 0, 1);
+		break;
+	case ColorSet::Orange:
+		glColor3f(1, 0.5, 0);
+		break;
+	case ColorSet::White:
+		glColor3f(1, 1, 1);
+		break;
+	case ColorSet::Grey:
+		glColor3f(0.8, 0.8, 0.8);
+		break;
+	case ColorSet::Grey2:
+		glColor3f(0.5, 0.5, 0.5);
+		break;
+	default:
+		break;
+	}
+}
+void SceneNode::applyLineWidth()
+{
+	glLineWidth(mLineWidth * 2);
 }
 void SceneNode::setLineVisible(bool is)
 {
@@ -25,10 +89,6 @@ void SceneNode::draw()
 	//do nothing by default	
 }
 
-inline void SceneNode::setActive(bool)
-{
-	//do nothing by default
-}
 
 inline void SceneNode::loadTexture(char *file)
 {

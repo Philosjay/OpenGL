@@ -6,75 +6,45 @@
 
 #define BMP_Header_Length 54
 
+//用两点法定义了图形位置、大小，提供设置颜色、线宽、贴图的方法，以及移动的方法
 class SceneNode
 {
 public:
-	enum Type
-	{
-		Pen,
-		Zoom,
-		Brush,
-		Eraser,
-		Line,
-		Curve,
-		Triangle,
-		CirCle,
-		Ellipse,
-		Rect,
-		Trianglef,
-		CirClef,
-		Ellipsef,
-		Rectf,
-	};
-
-	enum Color
-	{
-		Red,
-		Green,
-		Blue,
-		Yellow,
-		Orange,
-		White,
-		Black,
-		Purple,
-		Grey,
-		Grey2,
-	};
-	enum LineWidth
-	{
-		Width1,
-		Width2,
-		Width3,
-		Width4,
-	};
 	SceneNode();
 
-	void				setType(int type) { mType = type; }
-	void				setColor(int color) { mColor = color; }
-	virtual		void	setSize(float length, float height);
-	virtual		void	setLineWidth(int width);
+	void			setColor(int color) { mColor = color; }
+	void			setSize(float length, float height);
+	void			moveTo(int x, int y);
+	void			move(int x, int y);
+	virtual void			setEndPos(int x, int y);
+	virtual void	setLineWidth(int width);
 	void				setLineVisible(bool is);
-	virtual		void	draw();
-	virtual		void	setActive(bool);
-	virtual		bool	isWidgetActive(int x,int y) { return 0; }
-	virtual		void	loadTexture(char *file);
 	void	setTexture(GLuint texture) { this->texture = texture; }
 	void	setTextureEnable(bool isAble) { isTextureEnable = isAble; }
+
+	virtual		void	draw();
+	virtual		void	loadTexture(char *file);
 private:
 
 	SceneNode*	next;
 
 protected:
+	//绘图矩形的左上顶点
+	int startPosX, startPosY;
+	//绘图矩形的右下顶点
+	int endPosX,endPosY;
+
+	int length;
+	int height;
+
 	int		mColor;
-	int		mType;
-	float	length;
-	float	height;
 	int		mLineWidth;
 	GLuint  texture;
 	bool	isTextureEnable;
 	bool	isLineVisible;
 
-
+	void				applyColor();
+	void				applyLineWidth();
 };
 
 

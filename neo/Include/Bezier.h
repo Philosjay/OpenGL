@@ -11,7 +11,7 @@ public:
 	void	setRefPoint(int x, int y, int num);
 	void	draw();
 
-	void	update(int x, int y);
+	void	setEndPos(int x, int y);
 
 private:
 
