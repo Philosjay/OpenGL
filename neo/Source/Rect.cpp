@@ -2,19 +2,22 @@
 
 
 Rect::Rect()
+	: width(0)
+	, height(0)
+	, rotateCenterAngle(0)
 {
-	requiredClicks = 1;
+
 }
 bool Rect::isGrabbed(int x, int y)
 {
-	int centerX = (startPosX + endPosX) / 2;
-	int centerY = (startPosY + endPosY) / 2;
+	int centerX = startPosX + width / 2;
+	int centerY = startPosY - height / 2;
 
-	int length = endPosX > startPosX ? endPosX - startPosX : startPosX - endPosX;
-	int	height = endPosY > startPosY ? endPosY - startPosY : startPosY - endPosY;
+	int absWidth = width > 0 ? width : -width;
+	int absHeight = height > 0 ? height : -height;
 
-	if (x < centerX+length/2 && x > centerX - length/2) {
-		if (y<centerY + height / 2 && y> centerY - height / 2) {
+	if (x < centerX+ absWidth /2 && x > centerX - absWidth /2) {
+		if (y<centerY + absHeight / 2 && y> centerY - absHeight / 2) {
 			return true;
 		}
 		
@@ -22,40 +25,115 @@ bool Rect::isGrabbed(int x, int y)
 	return false;
 }
 
+void Rect::setSize(float length, float height)
+{
+	width = length;
+	this->height = height;
+
+
+}
+
+void Rect::moveTo(int x, int y)
+{
+	startPosX = x;
+	startPosY = y;
+}
+
+void Rect::move(int x, int y)
+{
+	startPosX += x;
+	startPosY += y;
+}
+
+
 inline void Rect::draw()
 {
-	int centerX = (startPosX + endPosX) / 2;
-	int centerY = (startPosY + endPosY) / 2;
+	if (width == 20) {
+		int i = 0;
+	}
 
-	int length = endPosX > startPosX ? endPosX - startPosX : startPosX - endPosX;
-	int	height = endPosY > startPosY ? endPosY - startPosY : startPosY - endPosY;
+	int centerX=startPosX + width / 2;
+	int centerY=startPosY - height / 2;
+
+
 
 	glPushMatrix();
 
 	applyColor();
 	applyLineWidth();
 
-	points[0][0] = centerX - length / 2;
+	points[0][0] = centerX - width / 2;
 	points[0][1] = centerY - height / 2;
-	points[1][0] = centerX + length / 2;
+	points[1][0] = centerX + width / 2;
 	points[1][1] = centerY - height / 2;
-	points[2][0] = centerX + length / 2;
+	points[2][0] = centerX + width / 2;
 	points[2][1] = centerY + height / 2;
-	points[3][0] = centerX - length / 2;
+	points[3][0] = centerX - width / 2;
 	points[3][1] = centerY + height / 2;
 
-	glBegin(GL_LINES);
-	glVertex3f(points[0][0], points[0][1], 0);
-	glVertex3f(points[1][0], points[1][1], 0);
+	if (isFilled) {
+		if (isTextureEnable) {
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, texture);
+		}
 
-	glVertex3f(points[1][0] - mLineWidth, points[1][1], 0);
-	glVertex3f(points[2][0] - mLineWidth, points[2][1], 0);
+		glLineWidth(mLineWidth * 2);
+		glBegin(GL_QUADS);
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex3f(points[0][0], points[0][1], 0);
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex3f(points[1][0], points[1][1], 0);
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex3f(points[2][0], points[2][1], 0);
+		glTexCoord2f(0.0f, 1.0f);
+		glVertex3f(points[3][0], points[3][1], 0);
+		glEnd();
+		glDisable(GL_TEXTURE_2D);
+		if (isLineVisible) {
+			glColor3f(0.0, 0.0, 0.0);
+			glLineWidth(1);
+			glBegin(GL_LINES);
+			glVertex3f(points[0][0], points[0][1], 0);
+			glVertex3f(points[1][0], points[1][1], 0);
+			glVertex3f(points[1][0], points[1][1], 0);
+			glVertex3f(points[2][0], points[2][1], 0);
+			glVertex3f(points[2][0], points[2][1], 0);
+			glVertex3f(points[3][0], points[3][1], 0);
+			glVertex3f(points[3][0], points[3][1], 0);
+			glVertex3f(points[0][0], points[0][1], 0);
+			glEnd();
+		}
+	}
+	else {
+		glBegin(GL_LINES);
+		glVertex3f(points[0][0], points[0][1], 0);
+		glVertex3f(points[1][0], points[1][1], 0);
 
-	glVertex3f(points[2][0], points[2][1], 0);
-	glVertex3f(points[3][0], points[3][1], 0);
+		glVertex3f(points[1][0] - mLineWidth, points[1][1], 0);
+		glVertex3f(points[2][0] - mLineWidth, points[2][1], 0);
 
-	glVertex3f(points[3][0]+ mLineWidth, points[3][1], 0);
-	glVertex3f(points[0][0]+ mLineWidth, points[0][1], 0);
+		glVertex3f(points[2][0], points[2][1], 0);
+		glVertex3f(points[3][0], points[3][1], 0);
+
+		glVertex3f(points[3][0] + mLineWidth, points[3][1], 0);
+		glVertex3f(points[0][0] + mLineWidth, points[0][1], 0);
+	}
+	
+	if (isFilled) {
+		if (isLineVisible) {
+			glColor3f(0.0, 0.0, 0.0);
+			glLineWidth(1);
+			glBegin(GL_LINES);
+			glVertex3f(points[0][0], points[0][1], 0);
+			glVertex3f(points[1][0], points[1][1], 0);
+			glVertex3f(points[1][0], points[1][1], 0);
+			glVertex3f(points[2][0], points[2][1], 0);
+			glVertex3f(points[2][0], points[2][1], 0);
+			glVertex3f(points[3][0], points[3][1], 0);
+			glVertex3f(points[3][0], points[3][1], 0);
+			glVertex3f(points[0][0], points[0][1], 0);
+		}
+	}
 
 	glEnd();
 

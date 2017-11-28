@@ -7,7 +7,6 @@ double ABS_DOUBLE_0 = 0.0001;
 Polygon::Polygon()
 	: n(20)
 {
-	requiredClicks = n;
 }
 
 void Polygon::setRefPoint(int x, int y, int num)
@@ -89,75 +88,4 @@ double Polygon::getTriangleArea(Point p0, Point p1, Point p2) {
 	double   S = tmp > 0 ? tmp : -tmp;
 
 	return S;
-}
-void Polygon::setEndPos(int x, int y)
-{
-	switch (requiredClicks)
-	{
-	case 20:
-		for (int i = 0; i < 20; i++) {
-			setRefPoint(x, y, i);
-		}
-		break;
-	case 19:
-		setRefPoint(x, y, 19);
-		break;
-	case 18:
-		setRefPoint(x, y, 18);
-		break;
-	case 17:
-		setRefPoint(x, y, 17);
-		break;
-	case 16:
-		setRefPoint(x, y, 16);
-		break;
-	case 15:
-		setRefPoint(x, y, 15);
-		break;
-	case 14:
-		setRefPoint(x, y, 14);
-		break;
-	case 13:
-		setRefPoint(x, y, 13);
-		break;
-	case 12:
-		setRefPoint(x, y, 12);
-		break;
-	case 11:
-		setRefPoint(x, y, 11);
-		break;
-	case 10:
-		setRefPoint(x, y, 10);
-		break;
-	case 9:
-		setRefPoint(x, y, 9);
-		break;
-	case 8:
-		setRefPoint(x, y, 8);
-		break;
-	case 7:
-		setRefPoint(x, y, 7);
-		break;
-	case 6:
-		setRefPoint(x, y, 6);
-		break;
-	case 5:
-		setRefPoint(x, y, 5);
-		break;
-	case 4:
-		setRefPoint(x, y, 4);
-		break;
-	case 3:
-		setRefPoint(x, y, 3);
-		break;
-	case 2:
-		setRefPoint(x, y, 2);
-	case 1:
-		setRefPoint(x, y, 1);
-		break;
-	case 0:
-		setRefPoint(x, y, 0);
-	default:
-		break;
-	}
 }

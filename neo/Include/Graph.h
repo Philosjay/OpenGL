@@ -12,12 +12,15 @@ public:
 	Graph();
 
 	//设置指定参考点，用于特殊图形绘制，如Bezier曲线
-	virtual	void setRefPoint(int x, int y, int num);
-
-	virtual bool isGrabbed(int x,int y);
-
+	virtual	void	setRefPoint(int x, int y, int num);
+	virtual void	rotateCenter(int angle90);
+	virtual bool	isGrabbed(int x,int y);
+	virtual void	setRadius(float r);
+	virtual void	setRadiusA(float r);
+	virtual void	setRadiusB(float r);
+	virtual	void	setWidth(float width);
+	virtual void	setHeight(float height);
 	//区分绘图所需点击数，用于特殊图形绘制，如Bezier曲线
-	int		requiredClicks;
 private:
 
 	

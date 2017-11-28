@@ -9,6 +9,9 @@ public:
 	Circle();
 	bool	isGrabbed(int x, int y);
 	void	draw();
+	void	setRadius(float r);
+	void	moveTo(int x, int y);
+	void	move(int x, int y);
 private:
 	float R;
 };

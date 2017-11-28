@@ -11,6 +11,10 @@ public:
 	Ellipse_();
 	bool	isGrabbed(int x, int y);
 	void	draw();
+	void	moveTo(int x, int y);
+	void	move(int x, int y);
+	virtual void	setRadiusA(float r);
+	virtual void	setRadiusB(float r);
 private:
 	float R1;
 	float R2;

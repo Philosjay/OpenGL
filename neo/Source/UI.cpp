@@ -1,8 +1,7 @@
 #include "../Include/UI.h"
-
+#include "../Include/Rect.h"
 #include "../Include/Botton.h"
 #include "../Include/Widget.h"
-#include "../Include/Rectf.h"
 #include "../Include/settingList.h"
 
 UI::UI()
@@ -118,7 +117,8 @@ inline void UI::init()
 
 void UI::background()
 {
-	Rectf* tmp = new Rectf;
+	Rect* tmp = new Rect;
+	tmp->setFill(true);
 	tmp->setColor(ColorSet::Grey);
 	tmp->setSize(1330, 110);
 	tmp->moveTo(0, 760);
@@ -126,7 +126,8 @@ void UI::background()
 	addBackground(tmp);
 
 
-	tmp = new Rectf;
+	tmp = new Rect;
+	tmp->setFill(true);
 	tmp->setColor(ColorSet::Grey);
 	tmp->setSize(200, 650);
 	tmp->moveTo(1130, 650);

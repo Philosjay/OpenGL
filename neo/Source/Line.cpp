@@ -2,7 +2,6 @@
 
 Line::Line()
 {
-	requiredClicks = 1;
 }
 
 bool Line::isGrabbed(int x, int y)

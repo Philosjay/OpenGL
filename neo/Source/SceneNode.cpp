@@ -5,25 +5,21 @@
 SceneNode::SceneNode() :
 	next(NULL),
 	isLineVisible(false),
-	isTextureEnable(false)
+	isTextureEnable(false),
+	isFilled(false),
+	defaultCenter(true)
 {
 }
 void SceneNode::setSize(float x, float y)
 {
-	length = x;
-	height = y;
 }
 void SceneNode::moveTo(int x, int y)
 {
-	//在分别移动两组参考点
 	startPosX = x;
 	startPosY = y;
-	endPosX = startPosX + length;
-	endPosY = startPosY - height;
 }
 void SceneNode::move(int x, int y)
 {
-	//在分别移动两组参考点
 	startPosX += x;
 	startPosY += y;
 	endPosX += x;
@@ -84,13 +80,19 @@ void SceneNode::setLineVisible(bool is)
 {
 	this->isLineVisible = is;
 }
+void SceneNode::setCenterPos(int x, int y)
+{
+	centerX = x;
+	centerY = y;
+	defaultCenter = false;
+}
 void SceneNode::draw()
 {
 	//do nothing by default	
 }
 
 
-inline void SceneNode::loadTexture(char *file)
+void SceneNode::loadTexture(char *file)
 {
 	GLint width, height, total_bytes;
 	GLubyte* pixels = 0;
@@ -172,4 +174,14 @@ inline void SceneNode::loadTexture(char *file)
 	isTextureEnable = true;
 	texture = texture_ID;
 
+}
+
+void SceneNode::setFill(bool isFill)
+{
+	isFilled = isFill;
+}
+
+bool SceneNode::isDefaultCenter()
+{
+	return defaultCenter;
 }

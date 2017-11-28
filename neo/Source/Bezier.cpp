@@ -5,8 +5,6 @@ Bezier::Bezier()
 	:count(10000)
 
 {
-
-	requiredClicks = 3;
 }
 
 bool Bezier::isGrabbed(int x, int y)
@@ -96,28 +94,5 @@ void Bezier::move(int x, int y)
 
 void Bezier::setEndPos(int x, int y)
 {
-	int n = requiredClicks;
 
-	switch (n)
-	{
-	case 3:
-		setRefPoint(x, y, 0);
-		setRefPoint(x, y, 1);
-		setRefPoint(x, y, 2); 
-		setRefPoint(x, y, 3);
-
-		break;
-	case 2:
-		setRefPoint(x, y, 3);
-		setRefPoint(x, y, 2);
-		break;
-	case 1:
-		setRefPoint(x, y, 1);
-		break;
-	case 0:
-		setRefPoint(x, y, 2);
-		break;
-	default:
-		break;
-	}
 }

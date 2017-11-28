@@ -13,7 +13,7 @@ public:
 	SceneNode();
 
 	void			setColor(int color) { mColor = color; }
-	void			setSize(float length, float height);
+	virtual void			setSize(float length, float height);
 	virtual	void			moveTo(int x, int y);
 	virtual void			move(int x, int y);
 	virtual void	setEndPos(int x, int y);
@@ -21,19 +21,23 @@ public:
 	void			setLineVisible(bool is);
 	void	setTexture(GLuint texture) { this->texture = texture; }
 	void	setTextureEnable(bool isAble) { isTextureEnable = isAble; }
+	void	setCenterPos(int x, int y);
 
 	virtual		void	draw();
 	virtual		void	loadTexture(char *file);
+	void		setFill(bool isFill);
+	bool		isDefaultCenter();
 private:
 	SceneNode*		next;
+	
 protected:
 	//绘图矩形的左上顶点
 	int startPosX, startPosY;
 	//绘图矩形的右下顶点
 	int endPosX,endPosY;
+	float centerX;
+	float centerY ;
 
-	int length;
-	int height;
 
 	int		mColor;
 	int		mLineWidth;
@@ -41,6 +45,8 @@ protected:
 	bool	isTextureEnable;
 	bool	isLineVisible;
 
+	bool			isFilled;
+	bool			defaultCenter;
 	void				applyColor();
 	void				applyLineWidth();
 };

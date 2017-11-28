@@ -8,8 +8,7 @@
 class Window;
 class World;
 class Graph;
-void display();
-
+class Painter;
 
 class Application
 {
@@ -27,9 +26,14 @@ public:
 	void	run();
 	void	updateStatus(int n);
 	int		curStatus;
-	Graph*	generateGraph(int type);
+	Graph*		generateGraph(int type);
+	Painter*	generatePainter(int type);
+
+	static	void mouseButton(int button, int state, int x, int y);
+	static	void mouseMotion(int x, int y);
 private:
 
+	static	void display();
 	void	render();
 	void	processUserInput();
 	void	getFeedback();

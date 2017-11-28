@@ -3,14 +3,10 @@
 Circle::Circle()
 	: R(0)
 {
-	requiredClicks = 1;
 }
 
 bool Circle::isGrabbed(int x, int y)
 {
-	float centerX = (startPosX + endPosX ) / 2;
-	float centerY = (startPosY + endPosY ) / 2;
-
 
 	float dis = sqrtf(((float)x - (float)centerX)*((float)x - (float)centerX)
 		+ ((float)y - (float)centerY)*((float)y - (float)centerY));
@@ -28,34 +24,60 @@ bool Circle::isGrabbed(int x, int y)
 
 inline void Circle::draw()
 {
-	int centerX = (startPosX + endPosX) / 2;
-	int centerY = (startPosY + endPosY) / 2;
 	glPushMatrix();
 
 	applyColor();
 	applyLineWidth();
 
-	glBegin(GL_LINE_LOOP);
+
+	
+	if (isFilled) {
+		glBegin(GL_POLYGON);
+	}
+	else {
+		glBegin(GL_LINE_LOOP);
+	}
+	for (int i = 0; i < n; ++i) {
+		glVertex3f(centerX + R*cos(2 * Pi / n*i), centerY + R*sin(2 * Pi / n*i), 0);
+	}
+
+	/*
 	if (endPosX >= startPosX && endPosY <= startPosY) {
 		for (int i = 0; i < n; ++i)
-			glVertex3f(centerX + R*cos(2 * Pi / n*i) , centerY+ R*sin(2 * Pi / n*i) , 0);
+			glVertex3f(centerX + R*cos(2 * Pi / n*i), centerY + R*sin(2 * Pi / n*i), 0);
 	}
 	else if (endPosX >= startPosX && endPosY >= startPosY) {
 		for (int i = 0; i < n; ++i)
-			glVertex3f(centerX + R*cos(2 * Pi / n*i) , centerY + R*sin(2 * Pi / n*i) , 0);
+			glVertex3f(centerX + R*cos(2 * Pi / n*i), centerY + R*sin(2 * Pi / n*i), 0);
 	}
 	else if (endPosX <= startPosX && endPosY <= startPosY) {
 		for (int i = 0; i < n; ++i)
-			glVertex3f(centerX + R*cos(2 * Pi / n*i) , centerY + R*sin(2 * Pi / n*i) , 0);
+			glVertex3f(centerX + R*cos(2 * Pi / n*i), centerY + R*sin(2 * Pi / n*i), 0);
 	}
 	else if (endPosX <= startPosX && endPosY >= startPosY) {
 		for (int i = 0; i < n; ++i)
-			glVertex3f(centerX + R*cos(2 * Pi / n*i) , centerY + R*sin(2 * Pi / n*i) , 0);
+			glVertex3f(centerX + R*cos(2 * Pi / n*i), centerY + R*sin(2 * Pi / n*i), 0);
 	}
+	*/
 	glEnd();
 
 	glPopMatrix();
 
-	R = sqrtf(((float)endPosX - (float)startPosX)*((float)endPosX - (float)startPosX)
-		+ ((float)endPosY - (float)startPosY)*((float)endPosY - (float)startPosY)) / 2;
+}
+
+void Circle::setRadius(float r)
+{
+	R = r;
+}
+
+void Circle::moveTo(int x, int y)
+{
+	centerX = x;
+	centerY = y;
+}
+
+void Circle::move(int x, int y)
+{
+	centerX += x;
+	centerY += y;
 }

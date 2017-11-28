@@ -14,7 +14,6 @@ public:
 	void	draw();
 	void	move(int x, int y);
 	bool	isGrabbed(int x, int y);
-	void	setEndPos(int x, int y);
 private:
 	typedef struct {
 		double x;

@@ -10,9 +10,14 @@ public:
 
 	void	draw();
 	bool	isGrabbed(int x, int y);
+	void	setSize(float length, float height);
+	void	moveTo(int x, int y);
+	void	move(int x, int y);
+
 private:
 	float	points[3][2];
-	
+	float	width;
+	float	height;
 };
 
 

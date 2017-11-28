@@ -6,21 +6,24 @@
 #include "../Include/Graph.h"
 #include "../Include/Line.h"
 #include "../Include/Rect.h"
-#include "../Include/Rectf.h"
 #include "../Include/Triangle.h"
-#include "../Include/Trianglef.h"
 #include "../Include/Circle.h"
-#include "../Include/Circlef.h"
 #include "../Include/Ellipse.h"
-#include "../Include/Ellipsef.h"
 #include "../Include/Eraser.h"
 #include "../Include/Pen.h"
 #include "../Include/Bezier.h"
 #include "../Include/Polygon.h"
 #include "../Include/settingList.h"
-
+#include "../Include/PainterForLine.h"
+#include "../Include/PainterForCurve.h"
+#include "../Include/PainterForCircle.h"
+#include "../Include/PainterForEllipse.h"
+#include "../Include/PainterForRect.h"
+#include "../Include/PainterForTriangle.h"
+#include "../Include/PainterForPolygon.h"
 
 #include<iostream>
+
 
 Window* window;
 World*	world;
@@ -35,8 +38,8 @@ int mShapeStatus;
 int mLineWidthStatus;
 int mColorStatus;
 
-int mX0;
-int mY0;
+int prePosX;
+int prePosY;
 
 Application::Application()
 	:  mGrab(NULL)
@@ -54,8 +57,9 @@ void Application::init() {
 	glClearColor(1, 1, 1, 0);
 }
 
-void mouseButton(int button, int state, int x, int y)
+void Application::mouseButton(int button, int state, int x, int y)
 {
+	Painter* painter = NULL; 
 
 	switch (button) {
 	case GLUT_LEFT_BUTTON:
@@ -63,8 +67,8 @@ void mouseButton(int button, int state, int x, int y)
 		case GLUT_DOWN:
 			curPosX = x + 50;
 			curPosY = 770 - y;
-			mX0 = curPosX;
-			mY0 = curPosY;
+			prePosX = curPosX;
+			prePosY = curPosY;
 
 
 			window->update(curPosX, curPosY);
@@ -77,23 +81,12 @@ void mouseButton(int button, int state, int x, int y)
 				{
 				case Application::DrawSingle:
 					//更新当前图形所需点击数量
-					if (newGraph != NULL) {
-						newGraph->requiredClicks--;
-						newGraph->setEndPos(curPosX, curPosY);
-					}
-
-					if (newGraph == NULL) {
-						newGraph = app->generateGraph(window->getActiveTool());
-						if (newGraph != NULL) {
-							newGraph->moveTo(curPosX, curPosY);
-							newGraph->setColor(window->getActiveColor());
-							newGraph->setLineWidth(window->getActiveLineWidth());
-							newGraph->setEndPos(curPosX, curPosY);
-							world->addGraph(newGraph);
-							newGraph->requiredClicks--;
-						}
-					}
-
+					newGraph = app->generateGraph(window->getActiveTool());
+					painter = app->generatePainter(window->getActiveTool());
+					painter->setPaintColor(window->getActiveColor());
+					painter->setPaintLineWidth(window->getActiveLineWidth());
+					painter->setPaintGraph(newGraph);
+					painter->paint(curPosX, curPosY);
 					break;
 				case Application::Drag:
 					grab = world->grab(curPosX, curPosY);
@@ -108,9 +101,9 @@ void mouseButton(int button, int state, int x, int y)
 		case GLUT_UP:
 			if (window->isInPaper()) {
 				if (newGraph != NULL) {
-					if (newGraph->requiredClicks <= 0) {
-						newGraph = NULL;
-					}
+//					if (newGraph->requiredClicks <= 0) {
+//						newGraph = NULL;
+//					}
 				}	
 			}
 			grab = NULL;
@@ -140,7 +133,7 @@ void mouseButton(int button, int state, int x, int y)
 	printf("Curpos X %d Y %d\n", curPosX, curPosY);
 
 }
-void mouseMotion(int x, int y)
+void Application::mouseMotion(int x, int y)
 {
 	//换算后的坐标
 	endPosX = x + 50;
@@ -158,19 +151,19 @@ void mouseMotion(int x, int y)
 		}
 		break;
 	case Application::DrawConstant:
-		world->drawConstantGraph(mX0, mY0, endPosX, endPosY,
+		world->drawConstantGraph(prePosX, prePosY, endPosX, endPosY,
 			window->getActiveTool(), window->getActiveColor(), window->getActiveLineWidth() + 1);
-		mX0 = endPosX;
-		mY0 = endPosY;
+		prePosX = endPosX;
+		prePosY = endPosY;
 		break;
 	case Application::Drag:
 		//成功抓取图形，移动它
 		if (grab != NULL) {
-			int deltaX = endPosX - mX0;
-			int deltaY = endPosY - mY0;
+			int deltaX = endPosX - prePosX;
+			int deltaY = endPosY - prePosY;
 			grab->move(deltaX, deltaY);
-			mX0 = endPosX;
-			mY0 = endPosY;
+			prePosX = endPosX;
+			prePosY = endPosY;
 		}
 		break;
 	default:
@@ -237,25 +230,29 @@ Graph * Application::generateGraph(int type)
 		mTmp = new Rect;
 		break;
 	case ToolSet::rectf:
-		mTmp = new Rectf;
+		mTmp = new Rect;
+		mTmp->setFill(true);
 		break;
 	case ToolSet::triangle:
 		mTmp = new Triangle;
 		break;
 	case ToolSet::trianglef:
-		mTmp = new Trianglef;
+		mTmp = new Triangle;
+		mTmp->setFill(true);
 		break;
 	case ToolSet::cirCle:
 		mTmp = new Circle;
 		break;
 	case ToolSet::cirClef:
-		mTmp = new Circlef;
+		mTmp = new Circle;
+		mTmp->setFill(true);
 		break;
 	case ToolSet::ellipse:
 		mTmp = new Ellipse_;
 		break;
 	case ToolSet::ellipsef:
-		mTmp = new Ellipsef_;
+		mTmp = new Ellipse_;
+		mTmp->setFill(true);
 		break;
 	case ToolSet::eraser:
 		mTmp = new Eraser;
@@ -274,7 +271,48 @@ Graph * Application::generateGraph(int type)
 	}
 	return mTmp;
 }
-void display() {
+Painter * Application::generatePainter(int type)
+{
+	Painter* mTmp = NULL;
+	switch (type)
+	{
+	case ToolSet::line:
+		mTmp = new PainterForLine(app,window,world);
+		break;
+	case ToolSet::rect:
+	case ToolSet::rectf:
+		mTmp = new PainterForRect(app, window, world);
+		break;
+	case ToolSet::triangle:
+	case ToolSet::trianglef:
+		mTmp = new PainterForTriangle(app, window, world);
+		break;
+	case ToolSet::cirCle:
+	case ToolSet::cirClef:
+		mTmp = new PainterForCircle(app, window, world);
+		break;
+	case ToolSet::ellipse:
+	case ToolSet::ellipsef:
+		mTmp = new PainterForEllipse(app, window, world);
+		break;
+	case ToolSet::eraser:
+//		mTmp = new Eraser;
+		break;
+	case ToolSet::pen:
+//		mTmp = new Pen;
+		break;
+	case ToolSet::curve:
+		mTmp = new PainterForCurve(app, window, world);
+		break;
+	case ToolSet::polygon:
+		mTmp = new PainterForPolygon(app, window, world);
+		break;
+	default:
+		break;
+	}
+	return mTmp;
+}
+void Application::display() {
 	//清空画布
 
 

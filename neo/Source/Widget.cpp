@@ -1,14 +1,16 @@
 #include "../Include/Widget.h"
-#include "../Include/Rectf.h"
+#include "../Include/Rect.h"
 #include "../Include/settingList.h"
 
 Widget::Widget() 
 {
-	mLayers[Layer::Buttom] = new class Rectf;
+	mLayers[Layer::Buttom] = new class Rect;
+	mLayers[Layer::Buttom]->setFill(true);
 	mLayers[Layer::Buttom]->setColor(ColorSet::Grey);
 
 
-	mLayers[Layer::Top] = new class Rectf;
+	mLayers[Layer::Top] = new class Rect;
+	mLayers[Layer::Top]->setFill(true);
 	mLayers[Layer::Top]->setColor(ColorSet::Green);
 }
 void Widget::loadTexture(char *file)
@@ -95,12 +97,14 @@ void Widget::loadTexture(char *file)
 }
 void Widget::setSize(int x, int y)
 {
-
+	//留下备份，在setPos内调节两个图形的位置
 	layerSize[Layer::Buttom].x = x;
 	layerSize[Layer::Buttom].y = y;
-
 	layerSize[Layer::Top].x = x*0.8;
 	layerSize[Layer::Top].y = y*0.8;
+
+	mLayers[Layer::Buttom]->setSize(x, y);
+	mLayers[Layer::Top]->setSize(x*0.8, y*0.8);
 
 }
 void Widget::setPos(int x, int y)
@@ -109,14 +113,12 @@ void Widget::setPos(int x, int y)
 	int height = layerSize[Layer::Buttom].y;
 	mLayers[Layer::Buttom]->moveTo(x, y);
 	mLayers[Layer::Buttom]->setLineVisible(true);
-	mLayers[Layer::Buttom]->setEndPos(x+width,y-height);
 
 	width = layerSize[Layer::Top].x;
 	height = layerSize[Layer::Top].y;
 	mLayers[Layer::Top]->moveTo(x + (layerSize[Layer::Buttom].x - layerSize[Layer::Top].x) / 2,
 		y - (layerSize[Layer::Buttom].y - layerSize[Layer::Top].y)/2 );
 	mLayers[Layer::Top]->setLineVisible(true);
-	mLayers[Layer::Top]->setEndPos(x + width, y - height);
 }
 void Widget::draw()
 {
