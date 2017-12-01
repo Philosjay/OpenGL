@@ -14,6 +14,10 @@ PainterForLine::PainterForLine(Application* targetApp, Window* targetWindow, Wor
 
 }
 
+PainterForLine::PainterForLine()
+{
+}
+
 void PainterForLine::paint(int x,int y)
 {
 	if (!mPainter->isStarted()) {

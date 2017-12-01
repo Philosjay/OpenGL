@@ -5,7 +5,7 @@
 double ABS_DOUBLE_0 = 0.0001;
 
 Polygon::Polygon()
-	: n(20)
+	: n(18)
 {
 }
 
@@ -24,11 +24,12 @@ void Polygon::draw()
 	applyColor();
 	applyLineWidth();
 
-	glBegin(GL_POLYGON);
+	glBegin(GL_LINE_STRIP);
 	for (int i = 0; i < n; i++)
 	{
 		glVertex3f(points[i][0], points[i][1], 0);
 	}
+
 	glEnd();
 
 	glPopMatrix();
@@ -76,6 +77,10 @@ bool Polygon::isGrabbed(int x, int y)
 		}
 	}
 	return false;
+}
+void Polygon::setMaxRefNum(int x)
+{
+	n = x;
 }
 double Polygon::getTriangleArea(Point p0, Point p1, Point p2) {
 	Point ab, ac;

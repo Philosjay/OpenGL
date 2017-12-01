@@ -3,6 +3,7 @@
 Circle::Circle()
 	: R(0)
 {
+	key = 8;
 }
 
 bool Circle::isGrabbed(int x, int y)

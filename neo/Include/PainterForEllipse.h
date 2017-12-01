@@ -14,6 +14,7 @@ private:
 
 public:
 	PainterForEllipse(Application* targetApp, Window* targetWindow, World* targetWorld);
+	PainterForEllipse();
 	void	paint(int x, int y);
 	void	start(int x, int y);
 	void	setRadiusA(float r);

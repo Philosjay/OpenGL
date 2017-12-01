@@ -4,11 +4,17 @@
 #include "../Include/Painter.h"
 #include "../Include/World.h"
 
+int num;
+int startX, startY;
 
 PainterForPolygon::PainterForPolygon(Application * targetApp, Window * targetWindow, World * targetWorld)
 	: Painter(targetApp, targetWindow, targetWorld)
 {
-	requiredClicks = 20;
+	requiredClicks = 18;
+}
+
+PainterForPolygon::PainterForPolygon()
+{
 }
 
 void PainterForPolygon::mouseButton(int button, int state, int x, int y)
@@ -25,22 +31,34 @@ void PainterForPolygon::mouseButton(int button, int state, int x, int y)
 			mPainter->setEndPos(mPainter->getCurPosX(), mPainter->getCurPosY());
 
 			if (mPainter->getTargetWindow()->isInPaper()) {
+				mPainter->setClicked();
 				//根据所选工具调用不同的方法
 				//更新当前图形所需点击数量
 				if (mPainter->isStarted()) {
 					mPainter->getTargetGraph()->setRefPoint(
 						mPainter->getEndPosX(), mPainter->getEndPosY(),
-						mPainter->getRequiredClicks() - 1);
-					mPainter->setClicked();
+						num -mPainter->getRequiredClicks());
+	
+					for (int i = num - mPainter->getRequiredClicks(); i < num; i++) {
+						mPainter->getTargetGraph()->setRefPoint(
+							mPainter->getEndPosX(), mPainter->getEndPosY(),
+							i);
+					}
+
+					
 				}
 			}
+			
 			break;
 		case GLUT_UP:
 			if (mPainter->getTargetWindow()->isInPaper()) {
-				if (mPainter->getRequiredClicks() <= 0) {
+				if (mPainter->getRequiredClicks() <= 1) {
+					mPainter->getTargetGraph()->setRefPoint(
+						startX, startY, num -1);
 					mPainter->quit();
 				}
 			}
+//			mPainter->setClicked();
 			//				Pgrab = NULL;
 			break;
 		}
@@ -50,6 +68,8 @@ void PainterForPolygon::mouseButton(int button, int state, int x, int y)
 		{
 		case GLUT_DOWN:
 			//点击右键结束绘图
+			mPainter->getTargetGraph()->setRefPoint(
+				startX, startY, num - 1);
 			mPainter->quit();
 			break;
 		default:
@@ -67,14 +87,22 @@ void PainterForPolygon::mouseButton(int button, int state, int x, int y)
 
 void PainterForPolygon::mouseMotion(int x, int y)
 {	//换算后的坐标
+	
 	mPainter->setEndPos(x + 50, 770 - y);
 
 	if (mPainter->getTargetWindow()->isInPaper()) {
 		if (mPainter->getTargetGraph() != NULL)
 			mPainter->getTargetGraph()->setRefPoint(
 				mPainter->getEndPosX(), mPainter->getEndPosY(),
-				mPainter->getRequiredClicks());
+				num - mPainter->getRequiredClicks());
+		for (int i = num - mPainter->getRequiredClicks() ; i < num; i++) {
+			mPainter->getTargetGraph()->setRefPoint(
+				mPainter->getEndPosX(), mPainter->getEndPosY(),
+				i);
+		}
+
 	}
+	mPainter->update();
 }
 
 
@@ -94,6 +122,10 @@ void PainterForPolygon::start(int x, int y)
 		mPainter->getTargetGraph()->setRefPoint(
 			x, y, i);
 	}
+	num = mPainter->getRequiredClicks();
+	mPainter->getTargetGraph()->setMaxRefNum(num);
+	startX = x;
+	startY = y;
 
 	mPainter->setStarted();
 	mPainter->getTargetGraph()->moveTo(mPainter->getCurPosX(), mPainter->getCurPosY());

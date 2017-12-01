@@ -14,6 +14,7 @@ class Painter {
 public:
 	
 	Painter(Application* targetApp, Window* targetWindow, World* targetWorld);
+	Painter();
 	virtual void paint(int x,int y) {
 		//do nothing by default
 	}
@@ -22,6 +23,9 @@ public:
 	void setPaintColor(int color);
 	void setPaintLineWidth(int lineWidth);
 	void setPaintGraph(Graph* graph);
+	void registerTargetWorld(World* world);
+	void registerTargetWindow(Window* world);
+	void registerTargetApplication(Application* app);
 	void			setClicked();
 	void			setStarted();
 	void		setCurPos(int x, int y);
@@ -41,7 +45,7 @@ public:
 	World*			getTargetWorld();
 
 	virtual void start(int x, int y);
-
+	virtual int	 drawConstantGraph(float x0, float y0, float x1, float y1, float color, float size);
 private:
 
 	

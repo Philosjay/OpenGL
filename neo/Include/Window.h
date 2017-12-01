@@ -5,6 +5,7 @@
 
 class UI;
 class SceneNode;
+class Manager;
 
 class Window
 {
@@ -16,12 +17,11 @@ public:
 	int		getActiveTool();
 	int		getActiveLineWidth();
 	int		getActiveColor();
-
+	void	registerManager(Manager* mng);
 
 private:
 	static void  reshape(int w, int h);
 	void		init();
-
 	UI*			mUI;
 
 

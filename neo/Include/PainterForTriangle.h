@@ -14,6 +14,7 @@ private:
 
 public:
 	PainterForTriangle(Application* targetApp, Window* targetWindow, World* targetWorld);
+	PainterForTriangle();
 	void	paint(int x, int y);
 	void	start(int x, int y);
 };

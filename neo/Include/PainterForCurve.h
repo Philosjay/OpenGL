@@ -14,7 +14,7 @@ private:
 	static	void mouseMotion(int x, int y);
 public:
 	PainterForCurve(Application* targetApp, Window* targetWindow, World* targetWorld);
-
+	PainterForCurve();
 	void paint(int x, int y);
 	void start(int x, int y);
 

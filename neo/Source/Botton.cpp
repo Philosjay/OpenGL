@@ -31,9 +31,9 @@ bool Botton::isWidgetActive(int x, int y)
 	}
 	return isActive;
 }
-void Botton::setType(int i)
+void Botton::setKey(int i)
 {
-	bottonType = i;
+	Key = i;
 }
 
 bool Botton::isGrabbed(int x, int y)
@@ -45,4 +45,9 @@ bool Botton::isGrabbed(int x, int y)
 
 	}
 	return false;
+}
+
+int Botton::getKey()
+{
+	return Key;
 }

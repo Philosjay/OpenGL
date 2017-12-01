@@ -9,6 +9,9 @@ class Window;
 class World;
 class Graph;
 class Painter;
+class Manager;
+
+class Application;
 
 class Application
 {
@@ -16,34 +19,32 @@ public:
 	enum Status
 	{
 		End,
-		DrawSingle,
-		DrawConstant,
+		Draw,
 		Drag,
 	};
 	Application();
-
+	
 	void	init();
 	void	run();
 	void	updateStatus(int n);
 	int		curStatus;
-	Graph*		generateGraph(int type);
-	Painter*	generatePainter(int type);
 
 	static	void mouseButton(int button, int state, int x, int y);
 	static	void mouseMotion(int x, int y);
 private:
-
+	Manager* getManager();
 	static	void display();
 	void	render();
 	void	processUserInput();
 	void	getFeedback();
-
-	World*	mWorld;
-	Window*	mWindow;
-	Graph*	mGrab;
-
-
 	
+	World*				mWorld;
+	Window*				mWindow;
+	Graph*				mGrab;
+	Manager*			mManager;
+
+	//Ïàµ±ÓÚthis
+	static	Application* mApp;
 };
 
 

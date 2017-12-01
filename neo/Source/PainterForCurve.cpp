@@ -13,6 +13,10 @@ PainterForCurve::PainterForCurve(Application* targetApp, Window* targetWindow, W
 	requiredClicks = 3;
 }
 
+PainterForCurve::PainterForCurve()
+{
+}
+
 void PainterForCurve::paint(int x, int y)
 {
 	if (!mPainter->isStarted()) {

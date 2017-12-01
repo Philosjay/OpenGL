@@ -14,6 +14,7 @@ private:
 	
 public:
 	PainterForLine(Application* targetApp, Window* targetWindow, World* targetWorld);
+	PainterForLine();
 	void paint(int x, int y);
 
 

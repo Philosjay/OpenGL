@@ -14,6 +14,7 @@ private:
 
 public:
 	PainterForRect(Application* targetApp, Window* targetWindow, World* targetWorld);
+	PainterForRect();
 	void	paint(int x, int y);
 	void	start(int x, int y);
 

@@ -12,11 +12,12 @@ public:
 
 	virtual void	setActive(bool isActive);
 	virtual	bool	isWidgetActive(int x, int y);
-	void			setType(int i);
+	void			setKey(int i);
 	bool			isGrabbed(int x, int y);
-
+	int				getKey();
 	bool	isActive;
-	int		bottonType;
+private:
+	int		Key;
 };
 
 

@@ -19,8 +19,6 @@ Window::Window(int width, int height, char* title)
 	glMatrixMode(GL_MODELVIEW);
 	glMatrixMode(GL_PROJECTION);
 
-	init();
-
 }
 
 void Window::update(int x, int y) {
@@ -56,6 +54,12 @@ int Window::getActiveColor()
 	return mUI->getLastActiveColor();
 }
 
+void Window::registerManager(Manager * mng)
+{
+	mUI = new UI(mng);
+}
+
+
 inline void Window::reshape(int w, int h)
 {
 	glViewport(0, 0, w, h);			//重置画面中心，和一下两个 glMatrixMode()照应使用
@@ -70,7 +74,7 @@ inline void Window::reshape(int w, int h)
 
 void Window::init()
 {
-	mUI = new UI;
+	
 
 
 }

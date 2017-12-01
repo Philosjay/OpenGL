@@ -9,6 +9,10 @@ PainterForRect::PainterForRect(Application * targetApp, Window * targetWindow, W
 	requiredClicks = 1;
 }
 
+PainterForRect::PainterForRect()
+{
+}
+
 void PainterForRect::mouseButton(int button, int state, int x, int y)
 {
 	switch (button) {

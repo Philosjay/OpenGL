@@ -10,6 +10,10 @@ PainterForEllipse::PainterForEllipse(Application * targetApp, Window * targetWin
 	requiredClicks = 1;
 }
 
+PainterForEllipse::PainterForEllipse()
+{
+}
+
 void PainterForEllipse::mouseButton(int button, int state, int x, int y)
 {
 	switch (button) {

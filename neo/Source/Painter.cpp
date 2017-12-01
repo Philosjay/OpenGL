@@ -21,6 +21,10 @@ Painter::Painter(Application * targetApp, Window * targetWindow, World * targetW
 	mPainter = this;
 }
 
+Painter::Painter()
+{
+}
+
 void Painter::quit()
 {
 	glutMouseFunc(mPainter->getTargetApp()->mouseButton);
@@ -63,6 +67,11 @@ void Painter::start(int x, int y)
 	mPainter->setClicked();
 }
 
+int Painter::drawConstantGraph(float x0, float y0, float x1, float y1, float color, float size)
+{
+	return 0;
+}
+
 void Painter::setPaintColor(int color)
 {
 	mColor = color;
@@ -76,6 +85,21 @@ void Painter::setPaintLineWidth(int lineWidth)
 void Painter::setPaintGraph(Graph * graph)
 {
 	mGraph = graph;
+}
+
+void Painter::registerTargetWorld(World * world)
+{
+	this->world = world;
+}
+
+void Painter::registerTargetWindow(Window * window)
+{
+	this->window = window;
+}
+
+void Painter::registerTargetApplication(Application * app)
+{
+	this->app = app;
 }
 
 void Painter::setClicked()

@@ -41,6 +41,20 @@ void Graph::setHeight(float height)
 {
 }
 
+void Graph::setMaxRefNum(int x)
+{
+}
+
+void Graph::setKey(int key)
+{
+	this->key = key;
+}
+
+int Graph::getKey()
+{
+	return key;
+}
+
 
 
 

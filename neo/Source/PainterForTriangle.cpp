@@ -9,6 +9,10 @@ PainterForTriangle::PainterForTriangle(Application * targetApp, Window * targetW
 	requiredClicks = 1;
 }
 
+PainterForTriangle::PainterForTriangle()
+{
+}
+
 void PainterForTriangle::mouseButton(int button, int state, int x, int y)
 {
 	switch (button) {

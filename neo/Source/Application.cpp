@@ -21,6 +21,9 @@
 #include "../Include/PainterForRect.h"
 #include "../Include/PainterForTriangle.h"
 #include "../Include/PainterForPolygon.h"
+#include "../Include/PainterForPen.h"
+
+#include "../Include/Manager.h"
 
 #include<iostream>
 
@@ -47,6 +50,8 @@ Application::Application()
 {
 	world = new World;
 	window = new Window(1280, 720, "test");
+	mManager = new Manager(this,window,world);
+	window->registerManager(mManager);
 
 	mWorld = world;
 	mWindow = window;
@@ -79,10 +84,10 @@ void Application::mouseButton(int button, int state, int x, int y)
 				//根据所选工具调用不同的方法
 				switch (app->curStatus)
 				{
-				case Application::DrawSingle:
+				case Application::Draw:
 					//更新当前图形所需点击数量
-					newGraph = app->generateGraph(window->getActiveTool());
-					painter = app->generatePainter(window->getActiveTool());
+					newGraph =app->getManager()->generateGraph(window->getActiveTool());
+					painter = app->getManager()->generatePainter(window->getActiveTool());
 					painter->setPaintColor(window->getActiveColor());
 					painter->setPaintLineWidth(window->getActiveLineWidth());
 					painter->setPaintGraph(newGraph);
@@ -90,8 +95,6 @@ void Application::mouseButton(int button, int state, int x, int y)
 					break;
 				case Application::Drag:
 					grab = world->grab(curPosX, curPosY);
-					break;
-				case Application::DrawConstant:
 					break;
 				default:
 					break;
@@ -144,17 +147,11 @@ void Application::mouseMotion(int x, int y)
 
 	switch (app->curStatus)
 	{
-	case Application::DrawSingle:
+	case Application::Draw:
 		if (window->isInPaper()) {
 			if(newGraph!=NULL)
 			newGraph->setEndPos(endPosX, endPosY);
 		}
-		break;
-	case Application::DrawConstant:
-		world->drawConstantGraph(prePosX, prePosY, endPosX, endPosY,
-			window->getActiveTool(), window->getActiveColor(), window->getActiveLineWidth() + 1);
-		prePosX = endPosX;
-		prePosY = endPosY;
 		break;
 	case Application::Drag:
 		//成功抓取图形，移动它
@@ -203,114 +200,22 @@ void Application::updateStatus(int n)
 	case ToolSet::ellipsef:
 	case ToolSet::curve:
 	case ToolSet::polygon:
-		curStatus = Application::Status::DrawSingle;
+	case ToolSet::pen:
+//	case ToolSet::eraser:
+		curStatus = Application::Status::Draw;
 		break;
 	case ToolSet::drager:
 		curStatus = Application::Status::Drag;
 		break;
-	case ToolSet::pen:
-	case ToolSet::eraser:
-		curStatus = Application::Status::DrawConstant;
-		break;
 	default:
 		break;
 	}
 
 
 }
-Graph * Application::generateGraph(int type)
+Manager * Application::getManager()
 {
-	Graph* mTmp = NULL;
-	switch (type)
-	{
-	case ToolSet::line:
-		mTmp = new Line;
-		break;
-	case ToolSet::rect:
-		mTmp = new Rect;
-		break;
-	case ToolSet::rectf:
-		mTmp = new Rect;
-		mTmp->setFill(true);
-		break;
-	case ToolSet::triangle:
-		mTmp = new Triangle;
-		break;
-	case ToolSet::trianglef:
-		mTmp = new Triangle;
-		mTmp->setFill(true);
-		break;
-	case ToolSet::cirCle:
-		mTmp = new Circle;
-		break;
-	case ToolSet::cirClef:
-		mTmp = new Circle;
-		mTmp->setFill(true);
-		break;
-	case ToolSet::ellipse:
-		mTmp = new Ellipse_;
-		break;
-	case ToolSet::ellipsef:
-		mTmp = new Ellipse_;
-		mTmp->setFill(true);
-		break;
-	case ToolSet::eraser:
-		mTmp = new Eraser;
-		break;
-	case ToolSet::pen:
-		mTmp = new Pen;
-		break;
-	case ToolSet::curve:
-		mTmp = new Bezier;
-		break;
-	case ToolSet::polygon:
-		mTmp = new Polygon;
-		break;
-	default:
-		break;
-	}
-	return mTmp;
-}
-Painter * Application::generatePainter(int type)
-{
-	Painter* mTmp = NULL;
-	switch (type)
-	{
-	case ToolSet::line:
-		mTmp = new PainterForLine(app,window,world);
-		break;
-	case ToolSet::rect:
-	case ToolSet::rectf:
-		mTmp = new PainterForRect(app, window, world);
-		break;
-	case ToolSet::triangle:
-	case ToolSet::trianglef:
-		mTmp = new PainterForTriangle(app, window, world);
-		break;
-	case ToolSet::cirCle:
-	case ToolSet::cirClef:
-		mTmp = new PainterForCircle(app, window, world);
-		break;
-	case ToolSet::ellipse:
-	case ToolSet::ellipsef:
-		mTmp = new PainterForEllipse(app, window, world);
-		break;
-	case ToolSet::eraser:
-//		mTmp = new Eraser;
-		break;
-	case ToolSet::pen:
-//		mTmp = new Pen;
-		break;
-	case ToolSet::curve:
-		mTmp = new PainterForCurve(app, window, world);
-		break;
-	case ToolSet::polygon:
-		mTmp = new PainterForPolygon(app, window, world);
-		break;
-	default:
-		break;
-	}
-	return mTmp;
+	return mManager;
 }
 void Application::display() {
 	//清空画布

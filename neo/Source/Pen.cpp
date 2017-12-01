@@ -2,6 +2,7 @@
 
 Pen::Pen()
 {
+	key = 0;
 }
 
 void Pen::draw()

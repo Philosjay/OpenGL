@@ -11,9 +11,10 @@ class PainterForPolygon : public Painter {
 private:
 	static	void mouseButton(int button, int state, int x, int y);
 	static	void mouseMotion(int x, int y);
+
 public:
 	PainterForPolygon(Application* targetApp, Window* targetWindow, World* targetWorld);
-
+	PainterForPolygon();
 	void paint(int x, int y);
 	void start(int x, int y);
 };

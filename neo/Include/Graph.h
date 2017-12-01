@@ -20,16 +20,19 @@ public:
 	virtual void	setRadiusB(float r);
 	virtual	void	setWidth(float width);
 	virtual void	setHeight(float height);
+	virtual void	setMaxRefNum(int x);
+	void			setKey(int key);
+	int				getKey();
 	//区分绘图所需点击数，用于特殊图形绘制，如Bezier曲线
 private:
-
+	
 	
 protected:
 
 	//一些用于绘图的常量参数
 	const int n;
 	const GLfloat Pi;
-
+	int key;
 	bool	isDragged;
 
 };

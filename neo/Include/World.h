@@ -12,7 +12,6 @@ public:
 	void addGraph(Graph* g);
 	void show();
 	Graph*	grab(int x, int y);
-	int		drawConstantGraph(int x0, int y0, int x1, int y1, int type, int color, int size);
 private:
 
 	Graph*	mGraphs[10000000];

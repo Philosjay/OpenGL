@@ -38,35 +38,3 @@ Graph * World::grab(int x, int y)
 	return NULL;
 }
 
-int World::drawConstantGraph(int x0, int y0, int x1, int y1, int type, int color, int size)
-{
-	
-	//当两点间距小于一定范围
-	if (sqrtf(((float)x1 - (float)x0)*((float)x1 - (float)x0)
-		+ ((float)y1 - (float)y0)*((float)y1 - (float)y0)) <= (float)size) {
-		Graph* mTmp = NULL;
-		//画图
-		switch (type)
-		{
-		case ToolSet::eraser:
-			mTmp = new Eraser;
-			break;
-		case ToolSet::pen:
-			mTmp = new Pen;
-			break;
-		default:
-			break;
-		}
-		mTmp->setEndPos((x1 + x0) / 2, (y1 + y0) / 2);
-		mTmp->setLineWidth(size);
-		mTmp->setColor(color);
-		mGraphs[mGraphCount++] = mTmp;
-		return 0;
-	}
-	//前半段
-	drawConstantGraph(x0, y0, (x1 + x0) / 2, (y1 + y0) / 2, type, color, size);
-
-	//后半段
-	drawConstantGraph((x1 + x0) / 2, (y1 + y0) / 2, x1, y1, type, color, size);
-	
-}

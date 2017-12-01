@@ -9,6 +9,10 @@ PainterForCircle::PainterForCircle(Application * targetApp, Window * targetWindo
 	requiredClicks = 1;
 }
 
+PainterForCircle::PainterForCircle()
+{
+}
+
 void PainterForCircle::paint(int x, int y)
 {
 	if (!mPainter->isStarted()) {

@@ -15,6 +15,7 @@ private:
 
 public:
 	PainterForCircle(Application* targetApp, Window* targetWindow, World* targetWorld);
+	PainterForCircle();
 	void paint(int x, int y);
 	void start(int x, int y);
 };
