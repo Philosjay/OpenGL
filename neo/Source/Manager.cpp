@@ -76,7 +76,7 @@ Manager::Manager(Application * targetApp, Window * targetWindow, World * targetW
 	tmp = new Factory_Zoom;
 	Factory_List[0].push_back(tmp);
 
-
+	
 
 	tmp = new Factory_LineWidth1;
 	Factory_List[1].push_back(tmp);
@@ -106,7 +106,7 @@ Manager::Manager(Application * targetApp, Window * targetWindow, World * targetW
 	tmp = new Factory_Btn_Yellow;
 	Factory_List[2].push_back(tmp);
 
-
+	
 
 }
 

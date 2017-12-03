@@ -18,11 +18,12 @@ class Application
 public:
 	enum Status
 	{
-		End,
+		Idle,
 		Draw,
 		Drag,
 		Save,
 		Load,
+		New,
 	};
 	Application();
 	
@@ -38,6 +39,7 @@ private:
 	static	void display();
 	void	render();
 	void	processUserInput();
+	static	void		newPaper();
 	static	void		save(const char* fileName);
 	static	void		load(const char* fileName);
 	World*				mWorld;

@@ -11,7 +11,7 @@ Botton * Factory_Drager::generateBotton()
 	Botton* tmp = new Botton;
 	tmp->setSize(100, 80);
 	tmp->setPos(1130, 730);
-	tmp->loadTexture("Textures/PaintBucket.bmp");
+	tmp->loadTexture("Textures/Drager.bmp");
 	tmp->setValue(1, 0);
 	tmp->setId(id);
 	return tmp;

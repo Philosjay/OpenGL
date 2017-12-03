@@ -21,8 +21,6 @@ public:
 	Manager(Application* targetApp, Window* targetWindow, World* targetWorld);
 	Graph*		getGraph(int id);
 	Painter*	getPainter(int id);
-//	Botton*		generateBotton(int type,int groupNum);
-
 	Storer*		getStorer(int id);
 	//0号记录功能组件，1号记录线宽组件，2号记录颜色组件
 	vector<Factory*>		Factory_List[10];

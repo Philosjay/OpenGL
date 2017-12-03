@@ -2,7 +2,6 @@
 #include "../Include/Rect.h"
 #include "../Include/Botton.h"
 #include "../Include/Widget.h"
-#include "../Include/settingList.h"
 #include "../Include/Manager.h"
 #include "../Include/Factory.h"
 
@@ -49,7 +48,7 @@ void UI::processInput(int x, int y)
 		}
 
 	}
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < MenuSet::MenuCount; i++) {
 		mMenuBottons[i]->setActive(false);
 		if (mMenuBottons[i]->isGrabbed(x, y)) {
 			mMenuBottons[i]->setActive(true);
@@ -77,7 +76,7 @@ void UI::show()
 		mBackground[i]->draw();
 	}
 
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < MenuCount; i++) {
 		mMenuBottons[i]->draw();
 	}
 
@@ -98,7 +97,7 @@ void UI::show()
 
 int UI::getStatus()
 {
-	//按键值0代表draw，1代表drag,2代表save，3代表load
+	//按键值0代表draw，1代表drag,2代表save，3代表load,4代表new,-1是无操作
 	if (lastActiveKey[3] == 0) {
 		lastActiveKey[3] = -1;
 		return 2;
@@ -107,8 +106,18 @@ int UI::getStatus()
 		lastActiveKey[3] = -1;
 		return 3;
 	}
+	else if (lastActiveKey[3] == 2) {
+		lastActiveKey[3] = -1;
+		return 4;
+	}
 
-	return mToolBottons[lastActiveKey[0]]->getValue(0);
+	if (mToolBottons[lastActiveKey[0]] != NULL) {
+		return mToolBottons[lastActiveKey[0]]->getValue(0);
+	}
+	else {
+		return -1;
+	}
+	
 }
 
 int UI::getActiveTool()
@@ -209,11 +218,6 @@ void UI::background()
 	widget->loadTexture("Textures/Title_Color.bmp");
 	addBackground(widget);
 
-	widget = new Botton;
-	widget->setSize(150, 100);
-	widget->setPos(60, 755);
-	widget->loadTexture("Textures/Title_Gallery.bmp");
-	addBackground(widget);
 }
 
 void UI::widgets()
@@ -227,8 +231,14 @@ void UI::widgets()
 	widet = new Botton;
 	widet->setSize(150, 100);
 	widet->setPos(360, 755);
-	widet->loadTexture("Textures/help.bmp");
+	widet->loadTexture("Textures/load.bmp");
 	mMenuBottons[MenuSet::Help] = widet;
+
+	widet = new Botton;
+	widet->setSize(150, 100);
+	widet->setPos(60, 755);
+	widet->loadTexture("Textures/new.bmp");
+	mMenuBottons[MenuSet::New] = widet;
 
 	//按钮群1
 	for (int i = 0; i < mManager->Factory_List[0].size(); i++) {

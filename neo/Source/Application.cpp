@@ -30,7 +30,7 @@ int prePosY;
 
 Application::Application()
 	:  mGrab(NULL)
-	, curStatus(End)
+	, curStatus(Idle)
 {
 	world = new World;
 	window = new Window(1280, 720, "test");
@@ -93,6 +93,11 @@ void Application::mouseButton(int button, int state, int x, int y)
 				break;
 			case Application::Load:
 				load("data.txt");
+				break;
+			case Application::New:
+				newPaper();
+				break;
+			case Application::Idle:
 				break;
 			default:
 				break;
@@ -196,6 +201,11 @@ void Application::updateStatus(int n)
 	case 3:
 		curStatus = Application::Load;
 		break;
+	case 4:
+		curStatus = Application::New;
+		break;
+	case -1:
+		curStatus = Application::Idle;
 	default:
 		break;
 	}
@@ -234,6 +244,11 @@ inline void Application::processUserInput()
 {
 	glutMouseFunc(mouseButton);
 	glutMotionFunc(mouseMotion);
+}
+
+void Application::newPaper()
+{
+	world->removeAllGraphs();
 }
 
 void Application::save(const char* fileName)

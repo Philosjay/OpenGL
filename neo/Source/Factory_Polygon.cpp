@@ -14,7 +14,7 @@ Botton * Factory_Polygon::generateBotton()
 	Botton* tmp = new Botton;
 	tmp->setSize(60, 30);
 	tmp->setPos(1230, 450);
-	//	tmp->loadTexture("Textures/rectangle2.bmp");
+	tmp->loadTexture("Textures/Polygon.bmp");
 	tmp->setValue(0, 0);
 	tmp->setId(id);
 	return tmp;

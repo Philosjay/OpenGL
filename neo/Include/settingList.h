@@ -46,13 +46,7 @@
 		Grey2,
 		ColorCount,
 	};
-	enum MenuSet
-	{
-		Save,
-		Help,
 
-		MenuCount,
-	};
 
 
 #endif // !BOTTONLIST_H_

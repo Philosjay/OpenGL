@@ -10,6 +10,13 @@ class Manager;
 class UI {
 
 public:
+	enum MenuSet
+	{
+		Save,
+		Help,
+		New,
+		MenuCount,
+	};
 	UI(Manager* mng);
 	
 	void	processInput(int x,int y);
