@@ -12,7 +12,7 @@ public:
 	void	draw();
 	void	move(int x, int y);
 	void	setEndPos(int x, int y);
-
+	Point	getRefPoint(int num);
 private:
 
 

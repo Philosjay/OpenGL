@@ -3,7 +3,6 @@
 Circle::Circle()
 	: R(0)
 {
-	key = 8;
 }
 
 bool Circle::isGrabbed(int x, int y)
@@ -42,24 +41,6 @@ inline void Circle::draw()
 		glVertex3f(centerX + R*cos(2 * Pi / n*i), centerY + R*sin(2 * Pi / n*i), 0);
 	}
 
-	/*
-	if (endPosX >= startPosX && endPosY <= startPosY) {
-		for (int i = 0; i < n; ++i)
-			glVertex3f(centerX + R*cos(2 * Pi / n*i), centerY + R*sin(2 * Pi / n*i), 0);
-	}
-	else if (endPosX >= startPosX && endPosY >= startPosY) {
-		for (int i = 0; i < n; ++i)
-			glVertex3f(centerX + R*cos(2 * Pi / n*i), centerY + R*sin(2 * Pi / n*i), 0);
-	}
-	else if (endPosX <= startPosX && endPosY <= startPosY) {
-		for (int i = 0; i < n; ++i)
-			glVertex3f(centerX + R*cos(2 * Pi / n*i), centerY + R*sin(2 * Pi / n*i), 0);
-	}
-	else if (endPosX <= startPosX && endPosY >= startPosY) {
-		for (int i = 0; i < n; ++i)
-			glVertex3f(centerX + R*cos(2 * Pi / n*i), centerY + R*sin(2 * Pi / n*i), 0);
-	}
-	*/
 	glEnd();
 
 	glPopMatrix();
@@ -81,4 +62,9 @@ void Circle::move(int x, int y)
 {
 	centerX += x;
 	centerY += y;
+}
+
+float Circle::getRadius()
+{
+	return R;
 }

@@ -96,3 +96,11 @@ void Bezier::setEndPos(int x, int y)
 {
 
 }
+
+Point Bezier::getRefPoint(int num)
+{
+	Point tmp;
+	tmp.x = points[num][0];
+	tmp.y = points[num][1];
+	return tmp;
+}

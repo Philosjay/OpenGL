@@ -64,8 +64,6 @@ void PainterForRect::mouseMotion(int x, int y)
 
 	if (mPainter->getTargetWindow()->isInPaper()) {
 		if (mPainter->getTargetGraph() != NULL)
-			mPainter->getTargetGraph()->setWidth(width);
-			mPainter->getTargetGraph()->setHeight(height);
 			mPainter->getTargetGraph()->setSize(width, height);
 	}
 
@@ -90,10 +88,9 @@ void PainterForRect::start(int x, int y)
 	mPainter->setCurPos(x, y);
 
 	mPainter->setStarted();
-	mPainter->getTargetGraph()->setWidth(0);
-	mPainter->getTargetGraph()->setHeight(0);
+	mPainter->getTargetGraph()->setSize(0, 0);
 	mPainter->getTargetGraph()->moveTo(x, y);
-	mPainter->getTargetGraph()->setColor(mPainter->getTargetWindow()->getActiveColor());
+	mPainter->getTargetGraph()->setColor(mColor.r, mColor.g, mColor.b);
 	mPainter->getTargetGraph()->setLineWidth(mPainter->getTargetWindow()->getActiveLineWidth());
 	mPainter->getTargetWorld()->addGraph(mPainter->getTargetGraph());
 	mPainter->setClicked();

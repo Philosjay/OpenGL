@@ -2,6 +2,7 @@
 #define WINDOW_H_
 
 #include <GL/glut.h>
+#include "SceneNode.h"
 
 class UI;
 class SceneNode;
@@ -14,9 +15,10 @@ public:
 	void	update(int x,int y);
 	void	draw();
 	bool	isInPaper();
+	int		getStatus();
 	int		getActiveTool();
 	int		getActiveLineWidth();
-	int		getActiveColor();
+	Color		getActiveColor();
 	void	registerManager(Manager* mng);
 
 private:

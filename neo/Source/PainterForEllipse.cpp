@@ -94,7 +94,7 @@ void PainterForEllipse::start(int x, int y)
 	mPainter->getTargetGraph()->setRadiusA(0);
 	mPainter->getTargetGraph()->setRadiusB(0);
 	mPainter->getTargetGraph()->moveTo(x, y);
-	mPainter->getTargetGraph()->setColor(mPainter->getTargetWindow()->getActiveColor());
+	mPainter->getTargetGraph()->setColor(mColor.r, mColor.g, mColor.b);
 	mPainter->getTargetGraph()->setLineWidth(mPainter->getTargetWindow()->getActiveLineWidth());
 	mPainter->getTargetWorld()->addGraph(mPainter->getTargetGraph());
 	mPainter->setClicked();

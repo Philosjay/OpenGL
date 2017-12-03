@@ -15,6 +15,7 @@ PainterForPolygon::PainterForPolygon(Application * targetApp, Window * targetWin
 
 PainterForPolygon::PainterForPolygon()
 {
+	requiredClicks = 18;
 }
 
 void PainterForPolygon::mouseButton(int button, int state, int x, int y)
@@ -118,7 +119,7 @@ void PainterForPolygon::paint(int x, int y)
 
 void PainterForPolygon::start(int x, int y)
 {
-	for (int i = 0; i < mPainter->getRequiredClicks(); i++) {
+	for (int i = 0; i < mPainter->getRequiredClicks()+1; i++) {
 		mPainter->getTargetGraph()->setRefPoint(
 			x, y, i);
 	}
@@ -129,7 +130,7 @@ void PainterForPolygon::start(int x, int y)
 
 	mPainter->setStarted();
 	mPainter->getTargetGraph()->moveTo(mPainter->getCurPosX(), mPainter->getCurPosY());
-	mPainter->getTargetGraph()->setColor(mPainter->getTargetWindow()->getActiveColor());
+	mPainter->getTargetGraph()->setColor(mColor.r,mColor.g,mColor.b);
 	mPainter->getTargetGraph()->setLineWidth(mPainter->getTargetWindow()->getActiveLineWidth());
 	mPainter->getTargetWorld()->addGraph(mPainter->getTargetGraph());
 	mPainter->setClicked();

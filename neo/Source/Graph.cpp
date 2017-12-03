@@ -11,6 +11,10 @@ void Graph::setRefPoint(int x, int y, int num)
 {
 	//do nothing by default
 }
+Point Graph::getRefPoint(int num)
+{
+	return Point();
+}
 void Graph::rotateCenter(int angle90)
 {
 }
@@ -33,26 +37,49 @@ void Graph::setRadiusB(float r)
 {
 }
 
-void Graph::setWidth(float width)
-{
-}
-
-void Graph::setHeight(float height)
-{
-}
 
 void Graph::setMaxRefNum(int x)
 {
 }
 
-void Graph::setKey(int key)
+int Graph::getMaxRefNum()
 {
-	this->key = key;
+	return 0;
 }
 
-int Graph::getKey()
+float Graph::getRadius()
 {
-	return key;
+	return 0.0f;
+}
+
+float Graph::getRadiusA()
+{
+	return 0.0f;
+}
+
+float Graph::getRadiusB()
+{
+	return 0.0f;
+}
+
+float Graph::getWidth()
+{
+	return 0.0f;
+}
+
+float Graph::getHeight()
+{
+	return 0.0f;
+}
+
+void Graph::setId(int key)
+{
+	this->id = key;
+}
+
+int Graph::getId()
+{
+	return id;
 }
 
 

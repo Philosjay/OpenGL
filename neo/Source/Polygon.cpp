@@ -15,6 +15,14 @@ void Polygon::setRefPoint(int x, int y, int num)
 	points[num][1] = y;
 }
 
+Point Polygon::getRefPoint(int num)
+{
+	Point tmp;
+	tmp.x = points[num][0];
+	tmp.y = points[num][1];
+	return tmp;
+}
+
 void Polygon::draw()
 {
 
@@ -81,6 +89,10 @@ bool Polygon::isGrabbed(int x, int y)
 void Polygon::setMaxRefNum(int x)
 {
 	n = x;
+}
+int Polygon::getMaxRefNum()
+{
+	return n;
 }
 double Polygon::getTriangleArea(Point p0, Point p1, Point p2) {
 	Point ab, ac;

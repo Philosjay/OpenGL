@@ -12,6 +12,9 @@ public:
 	void addGraph(Graph* g);
 	void show();
 	Graph*	grab(int x, int y);
+	int		getTotalGraphCount();
+	Graph*	getGraph(int index);
+	void	removeAllGraphs();
 private:
 
 	Graph*	mGraphs[10000000];

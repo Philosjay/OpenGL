@@ -11,10 +11,10 @@ void Botton::setActive(bool isActive)
 {
 	this->isActive = isActive;
 	if (isActive) {
-		mLayers[Layer::Buttom]->setColor(ColorSet::Grey2);
+		mLayers[Layer::Buttom]->setColor(0.5, 0.5, 0.5);
 	}
 	else {
-		mLayers[Layer::Buttom]->setColor(ColorSet::Grey);
+		mLayers[Layer::Buttom]->setColor(0.8, 0.8, 0.8);
 	}
 
 }
@@ -31,9 +31,9 @@ bool Botton::isWidgetActive(int x, int y)
 	}
 	return isActive;
 }
-void Botton::setKey(int i)
+void Botton::setId(int i)
 {
-	Key = i;
+	id = i;
 }
 
 bool Botton::isGrabbed(int x, int y)
@@ -47,7 +47,17 @@ bool Botton::isGrabbed(int x, int y)
 	return false;
 }
 
-int Botton::getKey()
+int Botton::getId()
 {
-	return Key;
+	return id;
+}
+
+float Botton::getValue(int index)
+{
+	return value[index];
+}
+
+void Botton::setValue(float value, int index)
+{
+	this->value[index] = value;
 }

@@ -6,12 +6,12 @@ Widget::Widget()
 {
 	mLayers[Layer::Buttom] = new class Rect;
 	mLayers[Layer::Buttom]->setFill(true);
-	mLayers[Layer::Buttom]->setColor(ColorSet::Grey);
+	mLayers[Layer::Buttom]->setColor(0.8, 0.8, 0.8);
 
 
 	mLayers[Layer::Top] = new class Rect;
 	mLayers[Layer::Top]->setFill(true);
-	mLayers[Layer::Top]->setColor(ColorSet::Green);
+	mLayers[Layer::Top]->setColor(0,1,0);
 }
 void Widget::loadTexture(char *file)
 {
@@ -125,4 +125,9 @@ void Widget::draw()
 	for (int i = 0; i < Layer::LayerCount; i++) {
 		mLayers[i]->draw();
 	}
+}
+
+void Widget::setColor(float r, float g, float b)
+{
+	mLayers[Layer::Top]->setColor(r, g, b);
 }

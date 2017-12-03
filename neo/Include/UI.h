@@ -1,6 +1,7 @@
 #ifndef UI_H_
 #define UI_H_
 
+#include "SceneNode.h"
 
 class Botton;
 class Graph;
@@ -13,18 +14,20 @@ public:
 	
 	void	processInput(int x,int y);
 	void	show();
-	int		getLastActiveTool() {return lastActiveKey[0]; }
-	int		getLastActiveLineWidth() { return lastActiveLineWidth+1; }
-	int		getLastActiveColor() { return lastActiveColor; }
+	int		getStatus();
+	int		getActiveTool();
+	int		getLastActiveLineWidth();
+	Color		getLastActiveColor();
 	bool	isDrawing() { return isdrawing; };
 private:
-	//有效键位的哈希值
-	int lastActiveKey[10] = {0,0,0,0,0,0,0,0,0,0};
+	//有效键位的哈希值,0是工具群，1是线宽群，2是颜色群，3是菜单群
+	int lastActiveKey[10] = {0,0,0,-1,0,0,0,0,0,0};
 	//有效键位的储存索引值
-	int lastActiveIndex[10] = { 0,0,0,0,0,0,0,0,0,0 };
 	int lastActiveLineWidth = 0;
 	int lastActiveColor = 0;
 	bool	isdrawing;
+	bool	isSaving;
+	bool	isLoading;
 
 	Graph*	mBackground[10];
 	Botton*	mToolBottons[100];

@@ -46,6 +46,16 @@ void Triangle::move(int x, int y)
 	startPosY += y;
 }
 
+float Triangle::getWidth()
+{
+	return width;
+}
+
+float Triangle::getHeight()
+{
+	return height;
+}
+
 
 inline void Triangle::draw()
 {

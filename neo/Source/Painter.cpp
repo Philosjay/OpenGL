@@ -23,6 +23,11 @@ Painter::Painter(Application * targetApp, Window * targetWindow, World * targetW
 
 Painter::Painter()
 {
+	requiredClicks = 1;
+	isStart = false;
+	isEnd = false;
+
+	mPainter = this;
 }
 
 void Painter::quit()
@@ -60,19 +65,24 @@ void Painter::start(int x, int y)
 
 	mPainter->setStarted();
 	mPainter->getTargetGraph()->moveTo(mPainter->getCurPosX(), mPainter->getCurPosY());
-	mPainter->getTargetGraph()->setColor(mPainter->getTargetWindow()->getActiveColor());
+	mPainter->getTargetGraph()->setColor(mColor.r, mColor.g, mColor.b);
 	mPainter->getTargetGraph()->setLineWidth(mPainter->getTargetWindow()->getActiveLineWidth());
 	mPainter->getTargetGraph()->setEndPos(mPainter->getCurPosX(), mPainter->getCurPosY());
 	mPainter->getTargetWorld()->addGraph(mPainter->getTargetGraph());
 	mPainter->setClicked();
 }
 
-int Painter::drawConstantGraph(float x0, float y0, float x1, float y1, float color, float size)
+int Painter::drawConstantGraph(float x0, float y0, float x1, float y1,  float size)
 {
 	return 0;
 }
 
-void Painter::setPaintColor(int color)
+Color Painter::getColor()
+{
+	return mColor;
+}
+
+void Painter::setPaintColor(Color color)
 {
 	mColor = color;
 }
@@ -128,6 +138,16 @@ void Painter::setEndPos(int x, int y)
 {
 	endPosX = x;
 	endPosY = y;
+}
+
+void Painter::setId(int id)
+{
+	this->id = id;
+}
+
+int Painter::getId()
+{
+	return id;
 }
 
 int Painter::getCurPosX()

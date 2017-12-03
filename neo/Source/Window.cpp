@@ -39,9 +39,14 @@ bool Window::isInPaper()
 	return mUI->isDrawing();
 }
 
+int Window::getStatus()
+{
+	return mUI->getStatus();
+}
+
 int Window::getActiveTool()
 {
-	return mUI->getLastActiveTool();
+	return mUI->getActiveTool();
 }
 
 int Window::getActiveLineWidth()
@@ -49,7 +54,7 @@ int Window::getActiveLineWidth()
 	return mUI->getLastActiveLineWidth();
 }
 
-int Window::getActiveColor()
+Color Window::getActiveColor()
 {
 	return mUI->getLastActiveColor();
 }

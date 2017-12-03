@@ -13,6 +13,7 @@ PainterForPen::PainterForPen(Application * targetApp, Window * targetWindow, Wor
 
 PainterForPen::PainterForPen()
 {
+	requiredClicks = 1;
 }
 
 void PainterForPen::mouseButton(int button, int state, int x, int y)
@@ -60,8 +61,7 @@ void PainterForPen::mouseMotion(int x, int y)
 	if (mPainter->getTargetWindow()->isInPaper()) {
 		if (mPainter->getTargetGraph() != NULL)
 			mPainter->drawConstantGraph(mPainter->getPrePosX(), mPainter->getPrePosY(),
-				mPainter->getEndPosX(), mPainter->getEndPosY(),
-				mPainter->getTargetWindow()->getActiveColor(), mPainter->getTargetWindow()->getActiveLineWidth() + 1);
+				mPainter->getEndPosX(), mPainter->getEndPosY(), mPainter->getTargetWindow()->getActiveLineWidth());
 	}
 	//记录上一个点的位置，用于求鼠标位移
 	mPainter->setPrePos(x + 50, 770 - y);
@@ -88,13 +88,13 @@ void PainterForPen::start(int x, int y)
 
 	mPainter->setStarted();
 	mPainter->getTargetGraph()->moveTo(x, y);
-	mPainter->getTargetGraph()->setColor(mPainter->getTargetWindow()->getActiveColor());
+	mPainter->getTargetGraph()->setColor(mColor.r, mColor.g, mColor.b);
 	mPainter->getTargetGraph()->setLineWidth(mPainter->getTargetWindow()->getActiveLineWidth());
 	mPainter->getTargetWorld()->addGraph(mPainter->getTargetGraph());
 	mPainter->setClicked();
 }
 
-int PainterForPen::drawConstantGraph(float x0, float y0, float x1, float y1, float color, float size)
+int PainterForPen::drawConstantGraph(float x0, float y0, float x1, float y1, float size)
 {
 
 	//当两点间距小于一定范围
@@ -105,14 +105,15 @@ int PainterForPen::drawConstantGraph(float x0, float y0, float x1, float y1, flo
 		mTmp = new Pen;
 		mTmp->setEndPos((x1 + x0) / 2, (y1 + y0) / 2);
 		mTmp->setLineWidth(size);
-		mTmp->setColor(color);
+		mTmp->setColor(mPainter->getColor().r, mPainter->getColor().g, mPainter->getColor().b);
+		mTmp->setId(mPainter->getId());
 		mPainter->getTargetWorld()->addGraph(mTmp);
 		return 0;
 	}
 	//前半段
-	drawConstantGraph(x0, y0, (x1 + x0) / 2, (y1 + y0) / 2, color, size);
+	drawConstantGraph(x0, y0, (x1 + x0) / 2, (y1 + y0) / 2,  size);
 
 	//后半段
-	drawConstantGraph((x1 + x0) / 2, (y1 + y0) / 2, x1, y1,color, size);
+	drawConstantGraph((x1 + x0) / 2, (y1 + y0) / 2, x1, y1,  size);
 
 }

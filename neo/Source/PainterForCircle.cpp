@@ -30,7 +30,7 @@ void PainterForCircle::start(int x, int y)
 	mPainter->setStarted();
 	mPainter->getTargetGraph()->setRadius(0);
 	mPainter->getTargetGraph()->moveTo(x,y);
-	mPainter->getTargetGraph()->setColor(mPainter->getTargetWindow()->getActiveColor());
+	mPainter->getTargetGraph()->setColor(mColor.r, mColor.g, mColor.b);
 	mPainter->getTargetGraph()->setLineWidth(mPainter->getTargetWindow()->getActiveLineWidth());
 	mPainter->getTargetWorld()->addGraph(mPainter->getTargetGraph());
 	mPainter->setClicked();

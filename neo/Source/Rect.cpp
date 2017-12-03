@@ -45,6 +45,16 @@ void Rect::move(int x, int y)
 	startPosY += y;
 }
 
+float Rect::getWidth()
+{
+	return width;
+}
+
+float Rect::getHeight()
+{
+	return height;
+}
+
 
 inline void Rect::draw()
 {

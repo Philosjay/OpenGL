@@ -3,6 +3,7 @@
 
 
 #include <gl/glut.h>
+#include "SceneNode.h"
 
 class Graph;
 class Window;
@@ -20,7 +21,7 @@ public:
 	}
 	void quit();
 	void update();
-	void setPaintColor(int color);
+	void setPaintColor(Color color);
 	void setPaintLineWidth(int lineWidth);
 	void setPaintGraph(Graph* graph);
 	void registerTargetWorld(World* world);
@@ -31,6 +32,8 @@ public:
 	void		setCurPos(int x, int y);
 	void		setPrePos(int x, int y);
 	void		setEndPos(int x, int y);
+	void		setId(int id);
+	int			getId();
 	int			getCurPosX();
 	int			getCurPosY();
 	int			getPrePosY();
@@ -43,25 +46,27 @@ public:
 	Window*			getTargetWindow();
 	Application*	getTargetApp();
 	World*			getTargetWorld();
-
+	Color getColor();
 	virtual void start(int x, int y);
-	virtual int	 drawConstantGraph(float x0, float y0, float x1, float y1, float color, float size);
+	virtual int	 drawConstantGraph(float x0, float y0, float x1, float y1, float size);
 private:
-
+	
 	
 protected:
+	
 	static Painter* mPainter;
 
 	Application * app;
 	Window* window;
 	World*	world;
 	Graph*		mGraph;
-	int			mColor;
+	Color mColor;
 	int			mLineWidth;
 	
 	bool	isStart;
 	bool	isEnd;
 	int	requiredClicks;
+	int	id;
 
 	int curPosX;
 	int curPosY;

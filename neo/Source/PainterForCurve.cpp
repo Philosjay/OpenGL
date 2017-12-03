@@ -15,6 +15,7 @@ PainterForCurve::PainterForCurve(Application* targetApp, Window* targetWindow, W
 
 PainterForCurve::PainterForCurve()
 {
+	requiredClicks = 3;
 }
 
 void PainterForCurve::paint(int x, int y)
@@ -27,14 +28,14 @@ void PainterForCurve::paint(int x, int y)
 }
 void PainterForCurve::start(int x, int y)
 {
-	for (int i = 0; i < mPainter->getRequiredClicks(); i++) {
+	for (int i = 0; i < mPainter->getRequiredClicks()+1; i++) {
 		mPainter->getTargetGraph()->setRefPoint(
 			x, y, i);
 	}
 
 	mPainter->setStarted();
 	mPainter->getTargetGraph()->moveTo(mPainter->getCurPosX(), mPainter->getCurPosY());
-	mPainter->getTargetGraph()->setColor(mPainter->getTargetWindow()->getActiveColor());
+	mPainter->getTargetGraph()->setColor(mColor.r, mColor.g, mColor.b);
 	mPainter->getTargetGraph()->setLineWidth(mPainter->getTargetWindow()->getActiveLineWidth());
 	mPainter->getTargetWorld()->addGraph(mPainter->getTargetGraph());
 	mPainter->setClicked();

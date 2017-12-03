@@ -38,3 +38,21 @@ Graph * World::grab(int x, int y)
 	return NULL;
 }
 
+int World::getTotalGraphCount()
+{
+	return mGraphCount;
+}
+
+Graph * World::getGraph(int index)
+{
+	return mGraphs[index];
+}
+
+void World::removeAllGraphs()
+{
+	for (int i = 0; i < mGraphCount; i++) {
+		delete mGraphs[i];
+	}
+	mGraphCount = 0;
+}
+

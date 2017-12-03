@@ -61,3 +61,13 @@ void Ellipse_::setRadiusB(float r)
 {
 	R2 = r;
 }
+
+float Ellipse_::getRadiusA()
+{
+	return R1;
+}
+
+float Ellipse_::getRadiusB()
+{
+	return R2;
+}

@@ -36,41 +36,7 @@ inline void SceneNode::setLineWidth(int width)
 }
 void SceneNode::applyColor()
 {	//…Ë÷√—’…´
-	switch (SceneNode::mColor)
-	{
-	case ColorSet::Red:
-		glColor3f(1, 0, 0);
-		break;
-	case ColorSet::Green:
-		glColor3f(0, 1, 0);
-		break;
-	case ColorSet::Blue:
-		glColor3f(0, 0, 1);
-		break;
-	case ColorSet::Yellow:
-		glColor3f(1, 1, 0);
-		break;
-	case ColorSet::Black:
-		glColor3f(0, 0, 0);
-		break;
-	case ColorSet::Purple:
-		glColor3f(1, 0, 1);
-		break;
-	case ColorSet::Orange:
-		glColor3f(1, 0.5, 0);
-		break;
-	case ColorSet::White:
-		glColor3f(1, 1, 1);
-		break;
-	case ColorSet::Grey:
-		glColor3f(0.8, 0.8, 0.8);
-		break;
-	case ColorSet::Grey2:
-		glColor3f(0.5, 0.5, 0.5);
-		break;
-	default:
-		break;
-	}
+	glColor3f(mColor.r, mColor.g, mColor.b);
 }
 void SceneNode::applyLineWidth()
 {
@@ -85,6 +51,44 @@ void SceneNode::setCenterPos(int x, int y)
 	centerX = x;
 	centerY = y;
 	defaultCenter = false;
+}
+void SceneNode::setStartPos(int x, int y)
+{
+	startPosX = x;
+	startPosY = y;
+}
+Point SceneNode::getCenterPos()
+{
+	Point tmp;
+	tmp.x = centerX;
+	tmp.y = centerY;
+	return tmp;
+}
+Point SceneNode::getStartPos()
+{
+	Point tmp;
+	tmp.x = startPosX;
+	tmp.y = startPosY;
+	return tmp;
+}
+Point SceneNode::getEndPos()
+{
+	Point tmp;
+	tmp.x = endPosX;
+	tmp.y = endPosY;
+	return tmp;
+}
+Color SceneNode::getColor()
+{
+	return mColor;
+}
+bool SceneNode::getFillStatus()
+{
+	return isFilled;
+}
+int SceneNode::getLineWidth()
+{
+	return mLineWidth;
 }
 void SceneNode::draw()
 {
@@ -184,4 +188,11 @@ void SceneNode::setFill(bool isFill)
 bool SceneNode::isDefaultCenter()
 {
 	return defaultCenter;
+}
+
+void SceneNode::setColor(float r, float g, float b)
+{
+	mColor.r = r;
+	mColor.g = g;
+	mColor.b = b;
 }

@@ -4,24 +4,8 @@
 #include "../Include/Window.h"
 #include "../Include/Botton.h"
 #include "../Include/Graph.h"
-#include "../Include/Line.h"
-#include "../Include/Rect.h"
-#include "../Include/Triangle.h"
-#include "../Include/Circle.h"
-#include "../Include/Ellipse.h"
-#include "../Include/Eraser.h"
-#include "../Include/Pen.h"
-#include "../Include/Bezier.h"
-#include "../Include/Polygon.h"
-#include "../Include/settingList.h"
-#include "../Include/PainterForLine.h"
-#include "../Include/PainterForCurve.h"
-#include "../Include/PainterForCircle.h"
-#include "../Include/PainterForEllipse.h"
-#include "../Include/PainterForRect.h"
-#include "../Include/PainterForTriangle.h"
-#include "../Include/PainterForPolygon.h"
-#include "../Include/PainterForPen.h"
+#include "../Include/Painter.h"
+#include "../Include/Storer.h"
 
 #include "../Include/Manager.h"
 
@@ -77,37 +61,45 @@ void Application::mouseButton(int button, int state, int x, int y)
 
 
 			window->update(curPosX, curPosY);
+			app->updateStatus(window->getStatus());
+
 			endPosX = curPosX;
 			endPosY = curPosY;
 			printf("is in paper %d \n", window->isInPaper());
-			if (window->isInPaper()) {
-				//根据所选工具调用不同的方法
-				switch (app->curStatus)
-				{
-				case Application::Draw:
-					//更新当前图形所需点击数量
-					newGraph =app->getManager()->generateGraph(window->getActiveTool());
-					painter = app->getManager()->generatePainter(window->getActiveTool());
-					painter->setPaintColor(window->getActiveColor());
-					painter->setPaintLineWidth(window->getActiveLineWidth());
-					painter->setPaintGraph(newGraph);
-					painter->paint(curPosX, curPosY);
-					break;
-				case Application::Drag:
-					grab = world->grab(curPosX, curPosY);
-					break;
-				default:
-					break;
+			//根据所选工具调用不同的方法
+			switch (app->curStatus)
+			{
+			case Application::Draw:
+				//更新当前图形所需点击数量
+				if (window->isInPaper()) {
+					newGraph = app->getManager()->getGraph(window->getActiveTool());
+					painter = app->getManager()->getPainter(window->getActiveTool());
+					if (painter != NULL) {
+						painter->registerTargetApplication(app);
+						painter->registerTargetWindow(window);
+						painter->registerTargetWorld(world);
+						painter->setPaintColor(window->getActiveColor());		//rgb值
+						painter->setPaintLineWidth(window->getActiveLineWidth());
+						painter->setPaintGraph(newGraph);
+						painter->paint(curPosX, curPosY);
+					}
 				}
+				break;
+			case Application::Drag:
+				grab = world->grab(curPosX, curPosY);
+				break;
+			case Application::Save:
+				save("data.txt");
+				break;
+			case Application::Load:
+				load("data.txt");
+				break;
+			default:
+				break;
 			}
 			break;
 		case GLUT_UP:
 			if (window->isInPaper()) {
-				if (newGraph != NULL) {
-//					if (newGraph->requiredClicks <= 0) {
-//						newGraph = NULL;
-//					}
-				}	
 			}
 			grab = NULL;
 			break;
@@ -131,7 +123,7 @@ void Application::mouseButton(int button, int state, int x, int y)
 	}
 
 
-	app->updateStatus(window->getActiveTool());
+	
 	display();
 	printf("Curpos X %d Y %d\n", curPosX, curPosY);
 
@@ -156,11 +148,13 @@ void Application::mouseMotion(int x, int y)
 	case Application::Drag:
 		//成功抓取图形，移动它
 		if (grab != NULL) {
-			int deltaX = endPosX - prePosX;
-			int deltaY = endPosY - prePosY;
-			grab->move(deltaX, deltaY);
-			prePosX = endPosX;
-			prePosY = endPosY;
+			if (window->isInPaper()) {
+				int deltaX = endPosX - prePosX;
+				int deltaY = endPosY - prePosY;
+				grab->move(deltaX, deltaY);
+				prePosX = endPosX;
+				prePosY = endPosY;
+			}
 		}
 		break;
 	default:
@@ -181,31 +175,26 @@ void Application::run() {
 
 	processUserInput();
 	mWindow->update(curPosX, curPosY);
-	app->updateStatus(window->getActiveTool());
+	app->updateStatus(window->getStatus());
 	this->render();
 	glutMainLoop();
 }
 void Application::updateStatus(int n)
 {
+	//对应工具按键被赋予的值
 	switch (n)
 	{
-	case ToolSet::line:
-	case ToolSet::rect:
-	case ToolSet::rectf:
-	case ToolSet::triangle:
-	case ToolSet::trianglef:
-	case ToolSet::cirCle:
-	case ToolSet::cirClef:
-	case ToolSet::ellipse:
-	case ToolSet::ellipsef:
-	case ToolSet::curve:
-	case ToolSet::polygon:
-	case ToolSet::pen:
-//	case ToolSet::eraser:
+	case 0:
 		curStatus = Application::Status::Draw;
 		break;
-	case ToolSet::drager:
+	case 1:
 		curStatus = Application::Status::Drag;
+		break;
+	case 2:
+		curStatus = Application::Save;
+		break;
+	case 3:
+		curStatus = Application::Load;
 		break;
 	default:
 		break;
@@ -247,8 +236,53 @@ inline void Application::processUserInput()
 	glutMotionFunc(mouseMotion);
 }
 
-inline void Application::getFeedback()
+void Application::save(const char* fileName)
 {
-	mShapeStatus = mWindow->getActiveTool();
-	mColorStatus = mWindow->getActiveColor();
+	ofstream f(fileName,ios::out);
+
+	Storer* storer = NULL;
+	for (int i = 0; i < world->getTotalGraphCount(); i++) {
+		int id = world->getGraph(i)->getId();
+		storer = app->getManager()->getStorer(id);
+		if (storer != NULL) {
+			storer->save(world->getGraph(i), f);
+		}
+	}
+
+	f.close();
+}
+
+void Application::load(const char * fileName)
+{
+
+	world->removeAllGraphs();
+
+	ifstream fin(fileName, ios::in);
+	if (fin.peek() == EOF) {
+		return;
+	}
+	int id;
+	char marker_start;
+	char marker_end;
+	while (!fin.eof()){
+		fin >> marker_start;
+		while (marker_start != '@') {
+			fin >> marker_start;
+		}
+
+		fin >> id;
+		Storer* storer = NULL;
+		storer = app->getManager()->getStorer(id);
+		if (storer != NULL) {
+			world->addGraph(storer->load(id, fin));
+		}
+		//如果文件流有误，则中断
+		fin >> marker_end;
+		while (marker_end != '#'){
+			fin >> marker_end;
+		}
+	}
+
+
+	fin.close();
 }

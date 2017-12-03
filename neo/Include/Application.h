@@ -21,6 +21,8 @@ public:
 		End,
 		Draw,
 		Drag,
+		Save,
+		Load,
 	};
 	Application();
 	
@@ -36,8 +38,8 @@ private:
 	static	void display();
 	void	render();
 	void	processUserInput();
-	void	getFeedback();
-	
+	static	void		save(const char* fileName);
+	static	void		load(const char* fileName);
 	World*				mWorld;
 	Window*				mWindow;
 	Graph*				mGrab;

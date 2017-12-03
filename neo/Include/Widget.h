@@ -14,6 +14,7 @@ public:
 	virtual	void	setSize(int x, int y);
 	virtual	void	setPos(int x, int y);
 	virtual	void	draw();
+	void			setColor(float r, float g, float b);
 private:
 
 	struct LayerSize

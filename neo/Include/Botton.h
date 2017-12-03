@@ -12,12 +12,16 @@ public:
 
 	virtual void	setActive(bool isActive);
 	virtual	bool	isWidgetActive(int x, int y);
-	void			setKey(int i);
+	void			setId(int i);
 	bool			isGrabbed(int x, int y);
-	int				getKey();
+	int				getId();
+	float			getValue(int index);
+	void			setValue(float value, int index);
 	bool	isActive;
 private:
-	int		Key;
+	int		id;
+protected:
+	float	value[10] = { 0,0,0,0,0,0,0,0,0,0 };
 };
 
 

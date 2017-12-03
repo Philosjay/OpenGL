@@ -4,11 +4,13 @@
 #include "../Include/Widget.h"
 #include "../Include/settingList.h"
 #include "../Include/Manager.h"
-#include "../Include/Factory_Btn.h"
+#include "../Include/Factory.h"
 
 UI::UI(Manager* mng)
 	:backgroundCount(0)
 	, isdrawing(false)
+	, isSaving(false)
+	, isLoading(false)
 {
 	mManager = mng;
 	init();
@@ -16,44 +18,42 @@ UI::UI(Manager* mng)
 
 void UI::processInput(int x, int y)
 {
-	for (int i = 0; i < mManager->botton_group_factory_List[0].size(); i++) {
+	//碰撞检测记录被选中的按键的储存位置，而非id
+	for (int i = 0; i < mManager->Factory_List[0].size(); i++) {
 		if (mToolBottons[i] != NULL) {
-			if (mToolBottons[i]->isGrabbed(x, y) && mToolBottons[i]->getKey() != lastActiveKey[0]) {
-				mToolBottons[i]->setActive(true);
-				mToolBottons[lastActiveIndex[0]]->setActive(false);
-				lastActiveKey[0] = mToolBottons[i]->getKey();
-				lastActiveIndex[0] = i;
+			if (mToolBottons[i]->isGrabbed(x, y) && i != lastActiveKey[0]) {
+			mToolBottons[i]->setActive(true);
+			mToolBottons[lastActiveKey[0]]->setActive(false);
+			lastActiveKey[0] = i;
 			}
 		}
 
 	}
-	for (int i = 0; i < Manager::BtnGroup3::BtnGroup3Count; i++) {
+	for (int i = 0; i < mManager->Factory_List[1].size(); i++) {
 		if (mLineWidthBottons[i] != NULL) {
-			if (mLineWidthBottons[i]->isGrabbed(x, y) && i != lastActiveLineWidth) {
+			if (mLineWidthBottons[i]->isGrabbed(x, y) && i != lastActiveKey[1]) {
 				mLineWidthBottons[i]->setActive(true);
-				mLineWidthBottons[lastActiveLineWidth]->setActive(false);
-				lastActiveLineWidth = i;
-				lastActiveIndex[1] = i;
+				mLineWidthBottons[lastActiveKey[1]]->setActive(false);
+				lastActiveKey[1] = i;
 			}
 		}
 
 	}
-	for (int i = 0; i < Manager::BtnGroup4::BtnGroup4Count; i++) {
+	for (int i = 0; i < mManager->Factory_List[2].size(); i++) {
 		if (mColorBottons[i] != NULL) {
-			if (mColorBottons[i]->isGrabbed(x, y) && i != lastActiveColor) {
+			if (mColorBottons[i]->isGrabbed(x, y) && i != lastActiveKey[2]) {
 				mColorBottons[i]->setActive(true);
-				mColorBottons[lastActiveColor]->setActive(false);
-				lastActiveColor = i;
-				lastActiveIndex[2] = i;
+				mColorBottons[lastActiveKey[2]]->setActive(false);
+				lastActiveKey[2] = i;
 			}
 		}
 
 	}
-	for (int i = 0; i < Manager::BtnGroup5::BtnGroup5Count; i++) {
+	for (int i = 0; i < 2; i++) {
 		mMenuBottons[i]->setActive(false);
 		if (mMenuBottons[i]->isGrabbed(x, y)) {
 			mMenuBottons[i]->setActive(true);
-			lastActiveIndex[3] = i;
+			lastActiveKey[3] = i;
 		}
 	}
 	
@@ -77,18 +77,18 @@ void UI::show()
 		mBackground[i]->draw();
 	}
 
-	for (int i = 0; i < Manager::BtnGroup5::BtnGroup5Count; i++) {
+	for (int i = 0; i < 2; i++) {
 		mMenuBottons[i]->draw();
 	}
 
 
-	for (int i = 0; i < Manager::BtnGroup1::BtnGroup1Count; i++) {
+	for (int i = 0; i < mManager->Factory_List[0].size(); i++) {
 		if (mToolBottons[i] != NULL)mToolBottons[i]->draw();
 	}
-	for (int i = 0; i < Manager::BtnGroup3::BtnGroup3Count; i++) {
+	for (int i = 0; i < mManager->Factory_List[1].size(); i++) {
 		if (mLineWidthBottons[i] != NULL)mLineWidthBottons[i]->draw();
 	}
-	for (int i = 0; i < Manager::BtnGroup4::BtnGroup4Count; i++) {
+	for (int i = 0; i <mManager->Factory_List[2].size(); i++) {
 		if(mColorBottons[i]!=NULL) mColorBottons[i]->draw();
 		
 	}
@@ -96,28 +96,68 @@ void UI::show()
 	glFlush();
 }
 
+int UI::getStatus()
+{
+	//按键值0代表draw，1代表drag,2代表save，3代表load
+	if (lastActiveKey[3] == 0) {
+		lastActiveKey[3] = -1;
+		return 2;
+	}
+	else if(lastActiveKey[3] == 1){
+		lastActiveKey[3] = -1;
+		return 3;
+	}
+
+	return mToolBottons[lastActiveKey[0]]->getValue(0);
+}
+
+int UI::getActiveTool()
+{
+	return mToolBottons[lastActiveKey[0]]->getId();
+}
+
+int UI::getLastActiveLineWidth()
+{
+	//读取按键被赋予的宽度值
+	if (mLineWidthBottons[lastActiveKey[1]] != NULL) {
+		return mLineWidthBottons[lastActiveKey[1]]->getValue(0);
+	}
+	return 1;
+}
+
+Color UI::getLastActiveColor()
+{
+	Color color;
+	//读取按键被赋予的rgb值
+	if (mColorBottons[lastActiveKey[2]] != NULL) {
+		color.r = mColorBottons[lastActiveKey[2]]->getValue(0);
+		color.g = mColorBottons[lastActiveKey[2]]->getValue(1);
+		color.b = mColorBottons[lastActiveKey[2]]->getValue(2);
+	}
+	else {
+		color.r = 0;
+		color.g =0;
+		color.b =0;
+	}
+	return color;
+}
+
 inline void UI::init()
 {
-	for (int i = 0; i < Manager::BtnGroup4::BtnGroup4Count; i++) {
-		mColorBottons[i] = NULL;
-	}
-	for (int i = 0; i < Manager::BtnGroup1::BtnGroup1Count; i++) {
-		mToolBottons[i] = NULL;
-	}
-	for (int i = 0; i <  Manager::BtnGroup3::BtnGroup3Count; i++) {
-		mLineWidthBottons[i] = NULL;
-	}
-	for (int i = 0; i < Manager::BtnGroup5::BtnGroup5Count; i++) {
-		mMenuBottons[i] = NULL;
-	}
 
 	background();
 	widgets();
 
+	if (mToolBottons[0] != NULL) {
+		mToolBottons[0]->setActive(true);
+	}
+	if (mLineWidthBottons[0] != NULL) {
+		mLineWidthBottons[0]->setActive(true);
+	}
+	if (mColorBottons[0] != NULL) {
+		mColorBottons[0]->setActive(true);
+	}
 	
-	mToolBottons[0]->setActive(true);
-	mLineWidthBottons[0]->setActive(true);
-	mColorBottons[0]->setActive(true);
 
 
 
@@ -127,7 +167,7 @@ void UI::background()
 {
 	Rect* tmp = new Rect;
 	tmp->setFill(true);
-	tmp->setColor(ColorSet::Grey);
+	tmp->setColor(0.8, 0.8, 0.8);
 	tmp->setSize(1330, 110);
 	tmp->moveTo(0, 760);
 
@@ -136,7 +176,7 @@ void UI::background()
 
 	tmp = new Rect;
 	tmp->setFill(true);
-	tmp->setColor(ColorSet::Grey);
+	tmp->setColor(0.8, 0.8, 0.8);
 	tmp->setSize(200, 650);
 	tmp->moveTo(1130, 650);
 	
@@ -191,92 +231,20 @@ void UI::widgets()
 	mMenuBottons[MenuSet::Help] = widet;
 
 	//按钮群1
-	for (int i = 0; i < mManager->botton_group_factory_List[0].size(); i++) {
-		mToolBottons[i] = mManager->botton_group_factory_List[0][i]->generate();
+	for (int i = 0; i < mManager->Factory_List[0].size(); i++) {
+		mToolBottons[i] = mManager->Factory_List[0][i]->generateBotton();
 	}
 
 
 	//按钮群3
-	for (int i = 0; i < mManager->bottonList2.size(); i++) {
-		mLineWidthBottons[i] = mManager->bottonList2[i];
+	for (int i = 0; i < mManager->Factory_List[1].size(); i++) {
+		mLineWidthBottons[i] = mManager->Factory_List[1][i]->generateBotton();
 	}
 	//按钮群4
 	
-	for (int i = 0; i <mManager->bottonList3.size(); i++) {
-		mColorBottons[i] = mManager->bottonList3[i];
+	for (int i = 0; i <mManager->Factory_List[2].size(); i++) {
+		mColorBottons[i] = mManager->Factory_List[2][i]->generateBotton();
 	}
-
-	/*
-	widet = new Botton;
-	widet->setSize(120, 30);
-	widet->setPos(1170, 400);
-	widet->loadTexture("Textures/line1.bmp");
-	mLineWidthBottons[LineWidthSet::Width1] = widet;
-	widet = new Botton;
-	widet->setSize(120, 30);
-	widet->setPos(1170, 370);
-	widet->loadTexture("Textures/line2.bmp");
-	mLineWidthBottons[LineWidthSet::Width2] = widet;
-	widet = new Botton;
-	widet->setSize(120, 30);
-	widet->setPos(1170, 340);
-	widet->loadTexture("Textures/line3.bmp");
-	mLineWidthBottons[LineWidthSet::Width3] = widet;
-	widet = new Botton;
-	widet->setSize(120, 30);
-	widet->setPos(1170, 310);
-	widet->loadTexture("Textures/line4.bmp");
-	mLineWidthBottons[LineWidthSet::Width4] = widet;
-
-	//颜色栏
-	widet = new Botton;
-	widet->setSize(60, 30);
-	widet->setPos(1170, 220);
-	widet->loadTexture("Textures/Red.bmp");
-	mColorBottons[ColorSet::Red] = widet;
-	//
-	widet = new Botton;
-	widet->setSize(60, 30);
-	widet->setPos(1230, 220);
-	widet->loadTexture("Textures/Green.bmp");
-	mColorBottons[ColorSet::Green] = widet;
-
-	widet = new Botton;
-	widet->setSize(60, 30);
-	widet->setPos(1170, 190);
-	widet->loadTexture("Textures/Blue.bmp");
-	mColorBottons[ColorSet::Blue] = widet;
-	/////////////////////
-	widet = new Botton;
-	widet->setSize(60, 30);
-	widet->setPos(1230, 190);
-	widet->loadTexture("Textures/Yellow.bmp");
-	mColorBottons[ColorSet::Yellow] = widet;
-
-	widet = new Botton;
-	widet->setSize(60, 30);
-	widet->setPos(1170, 160);
-	widet->loadTexture("Textures/Orange.bmp");
-	mColorBottons[ColorSet::Orange] = widet;
-
-	widet = new Botton;
-	widet->setSize(60, 30);
-	widet->setPos(1230, 160);
-	widet->loadTexture("Textures/Black.bmp");
-	mColorBottons[ColorSet::Black] = widet;
-
-	widet = new Botton;
-	widet->setSize(60, 30);
-	widet->setPos(1170, 130);
-	widet->loadTexture("Textures/White.bmp");
-	mColorBottons[ColorSet::White] = widet;
-
-	widet = new Botton;
-	widet->setSize(60, 30);
-	widet->setPos(1230, 130);
-	widet->loadTexture("Textures/Purple.bmp");
-	mColorBottons[ColorSet::Purple] = widet;
-	*/
 
 }
 

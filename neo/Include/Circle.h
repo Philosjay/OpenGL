@@ -12,6 +12,7 @@ public:
 	void	setRadius(float r);
 	void	moveTo(int x, int y);
 	void	move(int x, int y);
+	float	getRadius();
 private:
 	float R;
 };
