@@ -263,7 +263,6 @@ void Application::save(const char* fileName)
 			storer->save(world->getGraph(i), f);
 		}
 	}
-
 	f.close();
 }
 
@@ -276,16 +275,21 @@ void Application::load(const char * fileName)
 	if (fin.peek() == EOF) {
 		return;
 	}
-	int id;
-	char marker_start;
-	char marker_end;
+
 	while (!fin.eof()){
+		int id = -1;
+		char marker_start = -1;
+		char marker_end = -1;
+		
 		fin >> marker_start;
+		if (fin.eof()) break;
 		while (marker_start != '@') {
 			fin >> marker_start;
+			if (fin.eof()) break;
 		}
 
 		fin >> id;
+		if (fin.eof()) break;
 		Storer* storer = NULL;
 		storer = app->getManager()->getStorer(id);
 		if (storer != NULL) {
@@ -293,8 +297,10 @@ void Application::load(const char * fileName)
 		}
 		//如果文件流有误，则中断
 		fin >> marker_end;
+		if (fin.eof()) break;
 		while (marker_end != '#'){
 			fin >> marker_end;
+			if (fin.eof()) break;
 		}
 	}
 

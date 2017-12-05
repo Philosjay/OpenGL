@@ -1,5 +1,4 @@
 #include "../Include/Botton.h"
-#include "../Include/settingList.h"
 
 
 Botton::Botton() :

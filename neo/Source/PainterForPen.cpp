@@ -3,7 +3,6 @@
 #include "../Include/Graph.h"
 #include "../Include/World.h"
 #include "../Include/Pen.h"
-#include "../Include/settingList.h"
 
 PainterForPen::PainterForPen(Application * targetApp, Window * targetWindow, World * targetWorld)
 	:Painter(targetApp, targetWindow, targetWorld)

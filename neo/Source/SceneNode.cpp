@@ -1,5 +1,4 @@
 #include "../Include/SceneNode.h"
-#include "../Include/settingList.h"
 #include <iostream>
 
 SceneNode::SceneNode() :

@@ -3,7 +3,6 @@
 #include "../Include/Graph.h"
 #include "../Include/Eraser.h"
 #include "../Include/Pen.h"
-#include "../Include/settingList.h"
 
 
 World::World() :

@@ -1,6 +1,5 @@
 #include "../Include/Widget.h"
 #include "../Include/Rect.h"
-#include "../Include/settingList.h"
 
 Widget::Widget() 
 {

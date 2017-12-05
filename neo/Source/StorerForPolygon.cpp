@@ -1,5 +1,5 @@
-#include "StorerForPolygon.h"
-#include "Polygon.h"
+#include "../Include/StorerForPolygon.h"
+#include "../Include/Polygon.h"
 
 void StorerForPolygon::save(Graph * g, ofstream & f)
 {
@@ -24,7 +24,6 @@ Graph * StorerForPolygon::load(int id, ifstream & f)
 	Point p;
 	int lineWidth;	
 	float r, g, b;
-
 	tmp->setId(id);
 	for (int i = 0; i < tmp->getMaxRefNum(); i++) {
 		f >> p.x;
